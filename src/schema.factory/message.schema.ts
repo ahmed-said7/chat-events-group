@@ -1,3 +1,4 @@
+import { ConfigService } from "@nestjs/config";
 import {Schema,Document} from "mongoose";
 import { Models } from "src/enums/models";
 
@@ -20,9 +21,17 @@ export class MessageSchema {
     },{
         timestamps:true
     });
-    constructor(){
-        // this.schema.post("init",function(){
-        // })
+    constructor(config:ConfigService){
+        this.schema.post("init",function(){
+            if(this.image){
+                this.image=`${config.get("url")}/message/${this.image}`;
+            }
+        });
+        this.schema.post("save",function(){
+            if(this.image){
+                this.image=`${config.get("url")}/message/${this.image}`;
+            }
+        });
     };
 };
 

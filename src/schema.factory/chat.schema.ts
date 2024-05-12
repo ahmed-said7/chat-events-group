@@ -1,3 +1,4 @@
+import { ConfigService } from "@nestjs/config";
 import {Schema,Document,model, Model} from "mongoose";
 import { Models } from "src/enums/models";
 import { mongodbId } from "src/group/group.service";
@@ -26,10 +27,18 @@ export class ChatSchema {
     },{
         timestamps:true
     });
-    constructor(){
+    constructor(private config:ConfigService){
         this.schema.index({ name:"text" });
-        // this.schema.post("init",function(){
-        // })
+        this.schema.post("init",function(){
+            if(this.image){
+                this.image=`${config.get("url")}/chat/${this.image}`;
+            }
+        });
+        this.schema.post("save",function(){
+            if(this.image){
+                this.image=`${config.get("url")}/chat/${this.image}`;
+            }
+        });
     };
 };
 

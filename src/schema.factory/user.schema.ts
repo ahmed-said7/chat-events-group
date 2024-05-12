@@ -1,5 +1,6 @@
 import {Schema,Document,model, Model} from "mongoose";
 import * as bcryptjs from "bcryptjs";
+import { ConfigService } from "@nestjs/config";
 
 export class UserSchema {
     schema=new Schema({
@@ -31,7 +32,7 @@ export class UserSchema {
             timestamps:true
         }
     );
-    constructor(){
+    constructor(config:ConfigService){
         this.schema.pre("save",async function(next){
             if(this.isModified("password")){
                 this.password=await bcryptjs.hash(this.password,10);
@@ -39,6 +40,16 @@ export class UserSchema {
             return next();
         });
         this.schema.index({ name:"text" });
+        this.schema.post("init",function(){
+            if(this.image){
+                this.image=`${config.get("url")}/user/${this.image}`;
+            }
+        });
+        this.schema.post("save",function(){
+            if(this.image){
+                this.image=`${config.get("url")}/user/${this.image}`;
+            }
+        });
     };
 };
 

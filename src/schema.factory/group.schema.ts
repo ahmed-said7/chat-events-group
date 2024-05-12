@@ -1,3 +1,4 @@
+import { ConfigService } from "@nestjs/config";
 import { Schema , Document } from "mongoose";
 import { Models } from "src/enums/models";
 import { mongodbId } from "src/group/group.service";
@@ -26,8 +27,18 @@ export class GroupSchema {
     },{
         timestamps:true
     });
-    constructor(){
+    constructor(config:ConfigService){
         this.schema.index({ name:"text" });
+        this.schema.post("init",function(){
+            if(this.image){
+                this.image=`${config.get("url")}/group/${this.image}`;
+            }
+        });
+        this.schema.post("save",function(){
+            if(this.image){
+                this.image=`${config.get("url")}/group/${this.image}`;
+            }
+        });
     };
 };
 

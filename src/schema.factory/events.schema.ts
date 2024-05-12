@@ -1,3 +1,4 @@
+import { ConfigService } from "@nestjs/config";
 import {Schema,Document,model, Model} from "mongoose";
 import { Models } from "src/enums/models";
 import { mongodbId } from "src/group/group.service";
@@ -31,9 +32,19 @@ export class EventSchema {
     },{
         timestamps:true
     });
-    constructor(){
+    constructor(config:ConfigService){
         this.schema.index({location:"2dsphere"});
         this.schema.index({name:"text","details":"text"});
+        this.schema.post("init",function(){
+            if(this.image){
+                this.image=`${config.get("url")}/event/${this.image}`;
+            }
+        });
+        this.schema.post("save",function(){
+            if(this.image){
+                this.image=`${config.get("url")}/event/${this.image}`;
+            }
+        });
     };
 };
 
