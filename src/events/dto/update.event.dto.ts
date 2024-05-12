@@ -1,3 +1,4 @@
+import { Transform } from "class-transformer";
 import { ArrayMaxSize, ArrayMinSize, ArrayNotEmpty, IsArray, IsDate, IsMongoId, IsNotEmpty, IsNumber, IsOptional, IsString } from "class-validator";
 import { mongodbId } from "src/group/group.service";
 
@@ -15,9 +16,12 @@ export class UpdateEventDto {
     @IsNumber({},{each:true})
     location:[number,number];
     @IsOptional()
+    @Transform( ( {value} )=> new Date(value) )
     @IsDate()
+    
     startedAt:Date;
     @IsOptional()
+    @Transform( ( {value} )=> new Date(value) )
     @IsDate()
     endedAt:Date;
     @IsOptional()
