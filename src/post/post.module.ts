@@ -38,7 +38,7 @@ import { PostController } from "./post.controller";
             }
         ])
     ],
-    providers:[PostService],
+    providers:[PostService,{provide:"folder",useValue:"post"}],
     controllers:[PostController]
 })
 export class PostModule {};

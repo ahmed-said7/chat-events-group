@@ -28,7 +28,7 @@ import { GroupController } from "./group.controller";
             }
         ])
     ],
-    providers:[GroupServices],
+    providers:[GroupServices,{provide:"folder",useValue:"group"}],
     controllers:[GroupController]
 })
 export class GroupModule {};

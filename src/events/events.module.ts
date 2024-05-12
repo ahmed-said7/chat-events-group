@@ -31,7 +31,7 @@ import { ApiModule } from "src/filter/api.module";
             }
         ])
     ],
-    providers:[EventService],
+    providers:[EventService,{provide:"folder",useValue:"event"}],
     controllers:[EventController]
 })
 export class EventModule {};

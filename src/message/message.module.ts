@@ -39,7 +39,7 @@ import { MessageController } from "./message.controller";
             }
         ])
     ],
-    providers:[MessageService],
+    providers:[MessageService,{provide:"folder",useValue:"message"}],
     controllers:[MessageController]
 })
 export class MessageModule {};

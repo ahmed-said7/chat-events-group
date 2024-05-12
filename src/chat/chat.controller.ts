@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ChatService } from "./chat.service";
 import { CreateChatDto } from "./dto/create.chat";
 import { AuthUser } from "src/decorator/current.user";
@@ -7,6 +7,8 @@ import { Protected } from "src/guards/protect.user";
 import { mongodbId } from "src/group/group.service";
 import { ParseMongoId } from "src/pipes/validate.mogoid";
 import { UpdateChatDto } from "./dto/update.chat";
+import { FileInterceptorImage } from "src/interceptor/file.interceptor";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller("chat")
 @UseGuards(Protected)
@@ -15,6 +17,7 @@ export class ChatController {
     constructor(private chatService: ChatService){};
 
     @Post()
+    @UseInterceptors(FileInterceptor("image"),FileInterceptorImage)
     createChat(
         @Body() body:CreateChatDto,
         @AuthUser() user:UserDoc
@@ -46,6 +49,7 @@ export class ChatController {
     };
 
     @Patch(":id")
+    @UseInterceptors(FileInterceptor("image"),FileInterceptorImage)
     updateChat(
         @Body() body:UpdateChatDto,
         @Param("id",ParseMongoId) id:mongodbId,

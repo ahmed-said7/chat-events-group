@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Query, UseGuards, UseInterceptors } from "@nestjs/common";
 import { EventService } from "./events.service";
 import { Protected } from "src/guards/protect.user";
 import { CreateEventDto } from "./dto/event.create.dto";
@@ -8,6 +8,8 @@ import { ParseMongoId } from "src/pipes/validate.mogoid";
 import { mongodbId } from "src/group/group.service";
 import { QueryEventDto } from "./dto/event.query.dto";
 import { UpdateEventDto } from "./dto/update.event.dto";
+import { FileInterceptorImage } from "src/interceptor/file.interceptor";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 
 @Controller("event")
@@ -77,6 +79,7 @@ export class EventController {
 
     @Post()
     @UseGuards(Protected)
+    @UseInterceptors(FileInterceptor("image"),FileInterceptorImage)
     createEvent(
         @Body() body:CreateEventDto ,
         @AuthUser() user:UserDoc
@@ -97,6 +100,7 @@ export class EventController {
     };
     @Patch(":eventId")
     @UseGuards(Protected)
+    @UseInterceptors(FileInterceptor("image"),FileInterceptorImage)
     updateEvent(
         @Param("eventId",ParseMongoId) eventId: mongodbId,
         @Body() body:UpdateEventDto ,

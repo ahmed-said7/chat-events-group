@@ -30,6 +30,6 @@ import { ChatSchema } from "src/schema.factory/chat.schema";
         ])
     ],
     controllers:[ChatController],
-    providers:[ChatService]
+    providers:[ChatService,{provide:"folder",useValue:"chat"}]
 })
 export class ChatModule {};

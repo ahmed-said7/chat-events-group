@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, UseInterceptors } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { LoginUserDto } from "./dto/login.dto";
 import { SignupUserDto } from "./dto/signup.dto";
@@ -9,6 +9,8 @@ import { UserDoc } from "src/schema.factory/user.schema";
 import { UpdateUserDto } from "./dto/update.user.dto";
 import { ParseMongoId } from "src/pipes/validate.mogoid";
 import { mongodbId } from "src/group/group.service";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { FileInterceptorImage } from "src/interceptor/file.interceptor";
 
 
 @Controller("user")
@@ -39,6 +41,7 @@ export class UserController {
     };
     @Patch()
     @UseGuards(Protected)
+    @UseInterceptors(FileInterceptor("image"),FileInterceptorImage)
     updateUser( @AuthUser() user:UserDoc,@Body() body:UpdateUserDto  ){
         return this.userService.updateUser(body,user);
     };
