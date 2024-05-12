@@ -6,6 +6,7 @@ import { GroupModule } from './group/group.module';
 import { ChatModule } from './chat/chat.module';
 import { PostModule } from './post/post.module';
 import { MessageModule } from './message/message.module';
+import { EventModule } from './events/events.module';
 
 
 @Module({
@@ -18,7 +19,9 @@ import { MessageModule } from './message/message.module';
       },
       imports:[ConfigModule]
     }),
-    UserModule,GroupModule,ChatModule,PostModule,MessageModule
+    UserModule,GroupModule,ChatModule,
+    PostModule,MessageModule,
+    EventModule
   ],
   controllers: [],
   providers: []

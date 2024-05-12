@@ -177,7 +177,7 @@ export class PostService {
         };
         const group= await this.validateGroup(post.group,user);
         const index=post.comments
-            .findIndex( ( { _id } ) => _id.toString() != commentId.toString()  );
+            .findIndex( ( { _id } ) => _id.toString() == commentId.toString()  );
         if( index == -1 ){
             throw new HttpException("No comment found",400);
         };
@@ -201,7 +201,7 @@ export class PostService {
         };
         await this.validateGroup(post.group,user);
         const index=post.comments
-            .findIndex( ( { _id } ) => _id.toString() != commentId.toString()  );
+            .findIndex( ( { _id } ) => _id.toString() == commentId.toString()  );
         if( index == -1 ){
             throw new HttpException("No comment found",400);
         };

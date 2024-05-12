@@ -12,6 +12,7 @@ export class EventSchema {
         },
         details:String,
         location:[Number],
+        address:String,
         startedAt:Date,
         endedAt:Date,
         interested:[{
@@ -23,10 +24,6 @@ export class EventSchema {
             ref:Models.User
         }],
         image:String,
-        going:[{
-            type:Schema.Types.ObjectId,
-            ref:Models.User
-        }],
         admin : {
             type:Schema.Types.ObjectId,
             ref:Models.User
@@ -34,7 +31,9 @@ export class EventSchema {
     },{
         timestamps:true
     });
-    constructor(){};
+    constructor(){
+        this.schema.index({location:"2dsphere"});
+    };
 };
 
 export interface EventDoc extends Document {
@@ -46,6 +45,6 @@ export interface EventDoc extends Document {
     interested:mongodbId[],
     went:mongodbId[],
     image:string,
-    going:mongodbId[],
+    address:string
     admin : mongodbId;
 };
