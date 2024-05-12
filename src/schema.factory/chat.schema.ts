@@ -27,7 +27,7 @@ export class ChatSchema {
     },{
         timestamps:true
     });
-    constructor(private config:ConfigService){
+    constructor(config:ConfigService){
         this.schema.index({ name:"text" });
         this.schema.post("init",function(){
             if(this.image){
