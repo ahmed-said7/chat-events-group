@@ -77,9 +77,8 @@ export class PostService {
         if( user._id.toString() != post.user.toString() ){
             throw new HttpException("you are not post owner",400);
         };
-        await post.updateOne({ $set : body });
-        await post.save();
-        return { status:"updated" , post };
+        const updated=await this.postModel.findByIdAndUpdate(postId,body,{new:true});
+        return { status:"updated" , post:updated };
     };
     async getGroupPosts( groupId:mongodbId,user:UserDoc,page?:number,limit?:number ){
         const pagination:Pagination={};
@@ -144,7 +143,7 @@ export class PostService {
         post.likes=
             post.likes.filter( ( id ) => id.toString() != user._id.toString() );  
         await post.save();
-        return { status : "like added" , post };
+        return { status : "like removed" , post };
     };
     async getLikes( postId:mongodbId , user:UserDoc ){
         const post=await this.postModel.findOne({ 
@@ -166,7 +165,7 @@ export class PostService {
         await this.validateGroup(post.group,user);
         post.comments.push({ content : body.content , user:user._id  });
         await post.save();
-        return { content : body.content , user  }
+        return { status:"comment added",comment:post.comments[post.comments.length-1]  }
     };
     async removeComment(postId:mongodbId,commentId:mongodbId,user:UserDoc){
         const post=await this.postModel.findOne({ 
@@ -210,7 +209,7 @@ export class PostService {
         ){
             post.comments[index].content=body.content;
             await post.save();
-            return { status:"updated" , post }
+            return { status:"updated" , comment:post.comments[index] }
         }else {
             throw new HttpException("you are not allowed to update a comment",400);
         };

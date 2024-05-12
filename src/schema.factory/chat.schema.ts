@@ -39,6 +39,9 @@ export class ChatSchema {
                 this.image=`${config.get("url")}/chat/${this.image}`;
             }
         });
+        // this.schema.post("deleteOne",{document:true,query:false},function(){
+        //     console.log(this._id);
+        // });
     };
 };
 

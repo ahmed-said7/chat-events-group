@@ -100,9 +100,8 @@ export class UserService {
         if(body.email){
             await this.validateEmail(body.email);
         };
-        await user.updateOne({ $set:body });
-        await user.save();
-        return { status:"updated" };
+        const updated= await this.Usermodel.findByIdAndUpdate(user._id,body,{new:true});
+        return { status:"updated",user:updated };
     };
     async getOneUser(userId:mongodbId){
         const user = await this.Usermodel.findOne({ _id:userId });

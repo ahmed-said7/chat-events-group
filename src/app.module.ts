@@ -8,6 +8,7 @@ import { PostModule } from './post/post.module';
 import { MessageModule } from './message/message.module';
 import { EventModule } from './events/events.module';
 import { ApiModule } from './filter/api.module';
+import { SchemaFactoryModule } from './schema.factory/schema.module';
 
 
 @Module({
@@ -20,6 +21,7 @@ import { ApiModule } from './filter/api.module';
       },
       imports:[ConfigModule]
     }),
+    SchemaFactoryModule,
     UserModule,GroupModule,ChatModule,
     PostModule,MessageModule,
     EventModule,ApiModule

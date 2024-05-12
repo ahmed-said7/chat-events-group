@@ -31,8 +31,8 @@ export class EventService {
         if( eventExists.admin.toString() != user._id.toString()  ){
             throw new HttpException("you are not allowed to update event",400);
         };
-        await eventExists.updateOne({ $set : body });
-        return { status:"updated" };
+        const event=await this.eventModel.findByIdAndUpdate(eventId,body,{ new:true });
+        return { event };
     };
     async deleteEvent( eventId:mongodbId , user:UserDoc ){
         const eventExists =await this.eventModel.findById( eventId );
@@ -72,7 +72,7 @@ export class EventService {
         };
         eventExists.interested.push(user._id);
         await eventExists.save();
-        return { status:"user added" , event:eventExists };
+        return { status:"user added to interested list" };
     };
     async removeInterestUserFromEvent(eventId:mongodbId,user:UserDoc){
         const eventExists =await this.eventModel.findById( eventId );
@@ -84,7 +84,7 @@ export class EventService {
         };
         eventExists.interested=eventExists.interested.filter( (id) => id.toString() != user._id.toString() );
         await eventExists.save();
-        return { status:"user removed" , event:eventExists };
+        return { status:"user removed from interested list" };
     };
     async addWentUserToEvent(eventId:mongodbId,user:UserDoc){
         const eventExists =await this.eventModel.findById( eventId );
@@ -99,7 +99,7 @@ export class EventService {
         };
         eventExists.went.push(user._id);
         await eventExists.save();
-        return { status:"user added" , event:eventExists };
+        return { status:"user added to attended list" };
     };
     async removeWentUserFromEvent( eventId:mongodbId,user:UserDoc ){
         const eventExists =await this.eventModel.findById( eventId );
@@ -111,7 +111,7 @@ export class EventService {
         };
         eventExists.went.push(user._id);
         await eventExists.save();
-        return { status:"user removed" , event:eventExists };
+        return { status:"user removed from interested list"};
     };
     async getEventsByRadius(location:string,distance:number){
         const [ lat , lng] = location.split(',');
@@ -135,6 +135,6 @@ export class EventService {
         if( ! eventExists ){
             throw new HttpException("event not found",400);
         };
-        return { went : eventExists.went };
+        return { attended : eventExists.went };
     };
 };

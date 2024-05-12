@@ -1,6 +1,6 @@
-import { HttpException, Type } from "@nestjs/common";
+import { HttpException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model, ObjectId, Schema, Types } from "mongoose";
+import { Model, Schema} from "mongoose";
 import { Models } from "src/enums/models";
 import { GroupDoc } from "src/schema.factory/group.schema";
 import { UserDoc } from "src/schema.factory/user.schema";
@@ -51,7 +51,7 @@ export class GroupServices {
         };
         group.users=group.users.filter( ( id ) => id.toString() != user._id.toString() );
         await group.save();
-        return { group };
+        return { status:"user leaved group" };
     };
     async addUserToGroup(groupId:mongodbId,userId:mongodbId,user:UserDoc){
         const userExists=await this.userModel.findOne({ _id:userId });
@@ -70,7 +70,7 @@ export class GroupServices {
         };
         group.users.push(userExists._id);
         await group.save();
-        return { group };
+        return { status : "user added to group" };
     };
     async requestToJoinGroup( groupId:mongodbId , user:UserDoc ){
         const group=await this.groupModel.findOne({ _id:groupId });
@@ -86,7 +86,7 @@ export class GroupServices {
         };
         group.requests.push( user._id );
         await group.save();
-        return { group };
+        return { status:"request to join group"  };
     };
     async acceptRequestToJoinGroup( groupId:mongodbId, userId:mongodbId , user:UserDoc ){
         const userExists=await this.userModel.findOne({ _id:userId });
@@ -109,7 +109,7 @@ export class GroupServices {
         group.users.push(userExists._id);
         group.requests=group.requests.filter( (id) => id.toString() != userExists._id.toString() );
         await group.save();
-        return { group };
+        return { status : "request accepted" };
     };
     async rejectRequestToJoinGroup( groupId:mongodbId,userId:mongodbId, user:UserDoc ){
         const group=await this.groupModel.findOne({ _id:groupId });
@@ -124,7 +124,7 @@ export class GroupServices {
         };
         group.requests=group.requests.filter( (id) => id.toString() != userId.toString() );
         await group.save();
-        return { group };
+        return { status:"request rejected" };
     };
     async changeGroupAdmin(groupId:mongodbId,userId:mongodbId,user:UserDoc){
         const userExists=await this.userModel.findOne({ _id:userId });
@@ -146,7 +146,7 @@ export class GroupServices {
         };
         group.admin=userExists._id;
         await group.save();
-        return { group };
+        return { status: "group admin changed" }
     };
     async removeMemberFromGroup(groupId:mongodbId,userId:mongodbId,user:UserDoc){
         const userExists=await this.userModel.findOne({ _id:userId });
@@ -168,7 +168,7 @@ export class GroupServices {
         };
         group.users=group.users.filter( ( id ) => id.toString() != userId.toString() );
         await group.save();
-        return { group };
+        return { status:"member removed" };
     };
     async getUserGroups(user:UserDoc){
         const groups=await this.groupModel.find({
@@ -192,9 +192,8 @@ export class GroupServices {
         if( group.admin.toString() != user._id.toString() ){
             throw new HttpException("you are not group admin",400);
         };
-        await group.updateOne({ $set : body },{new:true});
-        await group.save();
-        return { group };
+        const updatedGroup=await this.groupModel.findByIdAndUpdate(groupId,body,{new:true});
+        return { group:updatedGroup };
     };
     async deleteGroup(groupId:mongodbId,user:UserDoc){
         const group=await this.groupModel.findOne({ _id:groupId });

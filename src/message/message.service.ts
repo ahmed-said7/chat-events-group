@@ -61,8 +61,8 @@ export class MessageService {
         if( message.user.toString() != user._id.toString() ){
             throw new HttpException("you are not message sender",400)
         };
-        await message.updateOne({ $set : body });
-        return { status:"updated" , message };
+        const updated=await this.msgModel.findByIdAndUpdate(messageId,body,{new:true});
+        return { status:"updated" , message:updated };
     };
     private async validateChat(chatId:mongodbId,user:UserDoc){
         const chat=await this.chatModel.findById(chatId);

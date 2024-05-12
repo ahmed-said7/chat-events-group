@@ -51,9 +51,8 @@ export class ChatService {
         if(!chatExist){
             throw new HttpException("chat not found",400);
         };
-        await chatExist.updateOne({ $set : body });
-        await chatExist.save();
-        return { chat:chatExist };
+        const chat=await this.chatModel.findByIdAndUpdate( chatId,body,{new:true} );
+        return { chat };
     };
     async getChats(user:UserDoc){
         const chats=await this.chatModel.find({
