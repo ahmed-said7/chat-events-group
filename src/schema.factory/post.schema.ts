@@ -30,15 +30,16 @@ export class PostSchema {
     },{
         timestamps:true
     });
-    constructor(config:ConfigService){
+    constructor(){
+        const self=this;
         this.schema.post("init",function(){
             if(this.image){
-                this.image=`${config.get("url")}/post/${this.image}`;
+                this.image=`${process.env.url}/post/${this.image}`;
             }
         });
         this.schema.post("save",function(){
             if(this.image){
-                this.image=`${config.get("url")}/post/${this.image}`;
+                this.image=`${process.env.url}/post/${this.image}`;
             }
         });
     };

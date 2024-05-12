@@ -16,7 +16,7 @@ export class FileInterceptorImage implements NestInterceptor {
         if(! file.mimetype.startsWith('image')){
             throw new HttpException('file type should be image',400);
         };
-        const filename=`user-${Date.now()}-${v4()}.jpeg`;
+        const filename=`${this.folder}-${Date.now()}-${v4()}.jpeg`;
         await sharp(file.buffer)
             .resize(500,500).toFormat('jpeg')
             .jpeg({quality:80})

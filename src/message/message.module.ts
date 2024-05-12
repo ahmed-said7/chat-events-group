@@ -7,6 +7,7 @@ import { SchemaFactoryModule } from "src/schema.factory/schema.module";
 import { UserSchema } from "src/schema.factory/user.schema";
 import { MessageService } from "./message.service";
 import { MessageController } from "./message.controller";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 
 
 

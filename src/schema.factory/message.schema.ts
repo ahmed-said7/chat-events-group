@@ -21,15 +21,15 @@ export class MessageSchema {
     },{
         timestamps:true
     });
-    constructor(config:ConfigService){
+    constructor(){
         this.schema.post("init",function(){
             if(this.image){
-                this.image=`${config.get("url")}/message/${this.image}`;
+                this.image=`${process.env.url}/message/${this.image}`;
             }
         });
         this.schema.post("save",function(){
             if(this.image){
-                this.image=`${config.get("url")}/message/${this.image}`;
+                this.image=`${process.env.url}/message/${this.image}`;
             }
         });
     };

@@ -5,8 +5,10 @@ import { GroupSchema } from "./group.schema";
 import { PostSchema } from "./post.schema";
 import { MessageSchema } from "./message.schema";
 import { EventSchema } from "./events.schema";
+import { ConfigModule } from "@nestjs/config";
 
 @Module({
+    imports:[ConfigModule.forRoot()],
     providers:[UserSchema,ChatSchema,GroupSchema,PostSchema,MessageSchema,EventSchema],
     exports:[UserSchema,ChatSchema,GroupSchema,PostSchema,MessageSchema,EventSchema]
 })

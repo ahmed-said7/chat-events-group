@@ -27,16 +27,16 @@ export class GroupSchema {
     },{
         timestamps:true
     });
-    constructor(config:ConfigService){
+    constructor(){
         this.schema.index({ name:"text" });
         this.schema.post("init",function(){
             if(this.image){
-                this.image=`${config.get("url")}/group/${this.image}`;
+                this.image=`${process.env.url}/group/${this.image}`;
             }
         });
         this.schema.post("save",function(){
             if(this.image){
-                this.image=`${config.get("url")}/group/${this.image}`;
+                this.image=`${process.env.url}/group/${this.image}`;
             }
         });
     };

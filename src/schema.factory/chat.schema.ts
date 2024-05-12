@@ -27,16 +27,16 @@ export class ChatSchema {
     },{
         timestamps:true
     });
-    constructor(config:ConfigService){
+    constructor(){
         this.schema.index({ name:"text" });
         this.schema.post("init",function(){
             if(this.image){
-                this.image=`${config.get("url")}/chat/${this.image}`;
+                this.image=`${process.env.url}/chat/${this.image}`;
             }
         });
         this.schema.post("save",function(){
             if(this.image){
-                this.image=`${config.get("url")}/chat/${this.image}`;
+                this.image=`${process.env.url}/chat/${this.image}`;
             }
         });
         // this.schema.post("deleteOne",{document:true,query:false},function(){
