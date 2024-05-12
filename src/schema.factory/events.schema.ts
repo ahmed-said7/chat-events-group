@@ -33,6 +33,7 @@ export class EventSchema {
     });
     constructor(){
         this.schema.index({location:"2dsphere"});
+        this.schema.index({name:"text","details":"text"});
     };
 };
 

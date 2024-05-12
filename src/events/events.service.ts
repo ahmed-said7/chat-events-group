@@ -113,12 +113,12 @@ export class EventService {
         await eventExists.save();
         return { status:"user removed" , event:eventExists };
     };
-    async getEventsByRadius(location:string,distance:string){
+    async getEventsByRadius(location:string,distance:number){
         const [ lat , lng] = location.split(',');
         if( !lat || !lng ){
             return new HttpException("please provide a lat and lng",400);
         };
-        const radius= ( parseInt(distance) || 10 ) / 6371;
+        const radius= ( distance || 10 ) / 6371;
         const events=await this.eventModel.
             find({ location : { $geoWithin : { $centerSphere : [ [lng,lat] , radius ]  } } });
         return { events };
