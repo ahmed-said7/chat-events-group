@@ -7,6 +7,7 @@ import { ChatModule } from './chat/chat.module';
 import { PostModule } from './post/post.module';
 import { MessageModule } from './message/message.module';
 import { EventModule } from './events/events.module';
+import { ApiModule } from './filter/api.module';
 
 
 @Module({
@@ -21,7 +22,7 @@ import { EventModule } from './events/events.module';
     }),
     UserModule,GroupModule,ChatModule,
     PostModule,MessageModule,
-    EventModule
+    EventModule,ApiModule
   ],
   controllers: [],
   providers: []

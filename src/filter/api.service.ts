@@ -18,13 +18,14 @@ export interface Pagination {
 };
 
 
-@Injectable()
 export class apiFeatures< T , m extends g > {
     public paginationObj:Pagination={};
-    constructor( public query:Query< T[] , T > , public queryObj:m ){};
-    filter(obj={}){
-        
-        let filter={ ... this.queryObj , ... obj };
+    query:Query< T[] , T >;
+    queryObj:m;
+    filter( query:Query< T[] , T > , queryObj:m ){
+        this.query=query;
+        this.queryObj=queryObj;
+        let filter={ ... this.queryObj  };
         let fields : ('keyword'|'page'|'limit'|'select'|'sort')[]=['keyword','page','limit','select','sort'];
         fields.forEach( (field  ) => { delete filter[field] } );
         let queryStr=JSON.stringify(filter);

@@ -6,10 +6,12 @@ import { SchemaFactoryModule } from "src/schema.factory/schema.module";
 import { UserSchema } from "src/schema.factory/user.schema";
 import { EventController } from "./events.controller";
 import { EventService } from "./events.service";
+import { ApiModule } from "src/filter/api.module";
 
 
 @Module({
     imports:[
+        ApiModule,
         MongooseModule.forFeatureAsync([
             { 
                 name:Models.User,
