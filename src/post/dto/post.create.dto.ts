@@ -5,7 +5,7 @@ export class CreatePostDto {
     @IsNotEmpty()
     @IsString()
     content: string;
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
     image : string;
     @IsOptional()
