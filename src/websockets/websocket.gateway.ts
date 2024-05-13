@@ -37,9 +37,10 @@ export class WebSocketEvents implements OnGatewayConnection , OnGatewayDisconnec
             token=authorization.split(" ")[1];
         };
         if( !token ){
-            client.send("no token available , please provide a token",()=>{
-                client.disconnect();
-            });
+            // client.send("no token available , please provide a token",()=>{
+            //     client.disconnect();
+            // });
+            client.disconnect();
         };
         let decoded:Payload|null=null;
         try{
