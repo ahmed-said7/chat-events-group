@@ -46,7 +46,8 @@ export class EventService {
         return { status:"deleted" };
     };
     async getEvent( eventId:mongodbId  ){
-        const eventExists =await this.eventModel.findById( eventId );
+        const eventExists =await this.eventModel
+            .findById( eventId ).populate("admin");
         if( ! eventExists ){
             throw new HttpException("event not found",400);
         };

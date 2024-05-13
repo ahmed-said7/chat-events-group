@@ -38,6 +38,8 @@ export class apiFeatures< T , m extends g > {
         if(this.queryObj.sort){
             const sort= this.queryObj.sort.split(',').join(' ');
             this.query=this.query.sort(sort);
+        }else{
+            this.query=this.query.sort("-createdAt");
         };
         return this;
     };

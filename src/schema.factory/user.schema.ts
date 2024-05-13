@@ -27,7 +27,8 @@ export class UserSchema {
             enum:["user","admin"],
             default:"user"
         },
-        passwordChangedAt:Date
+        passwordChangedAt:Date,
+        lastSeen:Date
         },{
             timestamps:true
         }
@@ -60,4 +61,5 @@ export interface UserDoc extends Document {
     password:string;
     role:string;
     passwordChangedAt:Date;
+    lastSeen:Date;
 };

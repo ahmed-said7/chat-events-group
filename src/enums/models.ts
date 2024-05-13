@@ -4,5 +4,6 @@ export enum Models {
     Event="events",
     Message="message",
     Group="group",
-    Post="post"
+    Post="post",
+    Service="service"
 }

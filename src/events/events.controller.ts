@@ -87,12 +87,14 @@ export class EventController {
         return this.eventService.createEvent(body, user);
     };
     @Get(":eventId")
+    @UseGuards(Protected)
     getEvent(
         @Param("eventId",ParseMongoId) eventId: mongodbId
     ){
         return this.eventService.getEvent(eventId);
     };
     @Get()
+    @UseGuards(Protected)
     getAllEvents(
         @Query() query:QueryEventDto
     ){
