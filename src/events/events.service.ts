@@ -56,7 +56,8 @@ export class EventService {
     async getAllEvents(query:QueryEventDto){
         const {paginationObj,query:data}=await this.filter
             .filter(this.eventModel.find(),query).select()
-            .sort().search().pagination();
+            .sort().population("admin")
+            .search().pagination();
         let events=await data;
         return { events , paginationObj };
     };

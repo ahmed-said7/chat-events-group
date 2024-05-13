@@ -54,7 +54,7 @@ export class ServiceProvider {
     async getAllServicesProviders(query:QueryServiceProviderDto){
         const {paginationObj,query:data}=await this.filter
             .filter(this.serviceModel.find(),query).select()
-            .sort().search().pagination();
+            .sort().search().population("admin").pagination();
         let services=await data;
         return { services , paginationObj };
     };

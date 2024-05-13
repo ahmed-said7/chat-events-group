@@ -57,6 +57,12 @@ export class apiFeatures< T , m extends g > {
         };
         return this;
     };
+    population( field : string  ){
+        if(field){
+            this.query=this.query.populate(field);
+        };
+        return this;
+    };
     async pagination(){
         this.paginationObj.numOfPages= (await (this.query.model.find({ ... this.query.getQuery() }))).length;
         this.paginationObj.currentPage=this.queryObj.page ? parseInt( this.queryObj.page ) : 1 ;
