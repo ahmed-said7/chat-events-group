@@ -43,6 +43,9 @@ export class Protected implements CanActivate {
         }catch(e){
             throw new HttpException("invalid token , please login again",400);
         };
+        if(!decoded){
+            throw new HttpException("token is not valid",400);
+        };
         const user=await this.Usermodel.findById(decoded?.userId);
         if(!user){
             throw new HttpException("user not found",400);

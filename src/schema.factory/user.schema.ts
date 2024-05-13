@@ -1,6 +1,6 @@
-import {Schema,Document,model, Model} from "mongoose";
+import { Schema,Document } from "mongoose";
 import * as bcryptjs from "bcryptjs";
-import { ConfigService } from "@nestjs/config";
+
 
 export class UserSchema {
     schema=new Schema({

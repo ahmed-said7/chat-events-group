@@ -9,6 +9,7 @@ import { MessageModule } from './message/message.module';
 import { EventModule } from './events/events.module';
 import { ApiModule } from './filter/api.module';
 import { SchemaFactoryModule } from './schema.factory/schema.module';
+import { SocketModule } from './websockets/websocket.module';
 
 
 @Module({
@@ -24,7 +25,7 @@ import { SchemaFactoryModule } from './schema.factory/schema.module';
     SchemaFactoryModule,
     UserModule,GroupModule,ChatModule,
     PostModule,MessageModule,
-    EventModule,ApiModule
+    EventModule,ApiModule,SocketModule
   ],
   controllers: [],
   providers: []
