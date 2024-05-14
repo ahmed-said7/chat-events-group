@@ -17,4 +17,11 @@ export class FeedController {
     ){
         return this.feedService.getFeed(user,page);
     };
+    @Get("/new")
+    getNewFeed(
+        @AuthUser() user:UserDoc,
+        @Query("page") page:string 
+    ){
+        return this.feedService.getNewFeed(user);
+    };
 };

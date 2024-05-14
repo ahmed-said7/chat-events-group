@@ -18,17 +18,56 @@ export class FeedService {
         @InjectModel(Models.Event) private eventModel: Model<EventDoc>,
         @InjectModel(Models.Service) private providerModel: Model<ServiceProviderDoc>
     ){};
-    async getFeed( user : UserDoc , page:string ){
+    async getFeed( user : UserDoc , page?:string  ){
         const groupIds=(await  this.groupModel.find({ "users" : user._id }).select("_id"))
             .map( ( { _id } ) => _id );
         let limit=5;
         const skip=( ( parseInt(page) || 1 ) - 1 ) * limit;
         const posts=await this.postModel.find({ group : { $in : groupIds } })
-            .populate(["user","group"]).sort("-createdAt").skip(skip).limit(limit);
+            .populate(
+                [
+                    {path:"user",select:"name image"}
+                    ,{path:"user",select:"name image"}
+                ])
+            .sort("-createdAt")
+            .skip(skip).limit(limit);
+
         const events=await this.eventModel.find()
-            .populate("admin").sort("-createdAt").skip(skip).limit(limit);
-        const services=await this.providerModel.find()
-            .populate("admin").sort("-createdAt").skip(skip).limit(limit);
+            .populate({path:"admin",select:"name image"}).sort("-createdAt").skip(skip).limit(limit);
+
+            const services=await this.providerModel.find()
+            .populate({path:"admin",select:"name image"}).sort("-createdAt").skip(skip).limit(limit);
+        user.lastSeen=new Date();
+        await user.save();
+        return { posts , events , services };
+    };
+    async getNewFeed( user : UserDoc  ){
+        if(!user.lastSeen){
+            return this.getFeed( user );
+        };
+        const groupIds=(await  this.groupModel.find({ "users" : user._id }).select("_id"))
+            .map( ( { _id } ) => _id );
+            const posts=await this.postModel.find({ 
+                group : { $in : groupIds } , 
+                $or : [ { createdAt : { $gt : user.lastSeen } } , { updatedAt: {$gt : user.lastSeen } }]
+            })
+            .populate(
+                [
+                    {path:"user",select:"name image"}
+                    ,{path:"user",select:"name image"}
+                ])
+            .sort("-createdAt").limit(6);
+
+        const events=await this.eventModel
+        .find({$or : [ { createdAt : { $gt : user.lastSeen } } , { updatedAt: {$gt : user.lastSeen } }]})
+            .populate({path:"admin",select:"name image"}).sort("-createdAt").limit(6);
+
+        const services=await this.providerModel
+            .find({$or : [ { createdAt : { $gt : user.lastSeen } } , { updatedAt: {$gt : user.lastSeen } }]})
+            .populate({path:"admin",select:"name image"}).sort("-createdAt").limit(6);
+        
+        user.lastSeen=new Date();
+        await user.save();
         return { posts , events , services };
     };
 };

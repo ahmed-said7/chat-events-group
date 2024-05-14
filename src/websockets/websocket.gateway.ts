@@ -65,9 +65,9 @@ export class WebSocketEvents implements OnGatewayConnection , OnGatewayDisconnec
     async handleDisconnect(client: AuthSocket) {
         if( client.user ) {
             this.SocketService.deleteConnectedUser(client.user._id);
-            await this.UserModel.findByIdAndUpdate(client.user._id,{
-                lastSeen:new Date()
-            });
+            // await this.UserModel.findByIdAndUpdate(client.user._id,{
+            //     lastSeen:new Date()
+            // });
         };
     };
     @WebSocketServer()
