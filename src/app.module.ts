@@ -12,6 +12,8 @@ import { SchemaFactoryModule } from './schema.factory/schema.module';
 import { SocketModule } from './websockets/websocket.module';
 import { ServiceProviderModule } from './user services/userServices.module';
 import { FeedModule } from './feed/feed.module';
+import { APP_FILTER } from '@nestjs/core';
+import { catchExceptionsFilter } from './errorHandler/base.filter';
 
 
 @Module({
@@ -31,6 +33,9 @@ import { FeedModule } from './feed/feed.module';
     FeedModule
   ],
   controllers: [],
-  providers: []
+  providers: [{
+    provide:APP_FILTER,
+    useClass:catchExceptionsFilter
+  }]
 })
 export class AppModule {}
