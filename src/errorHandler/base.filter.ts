@@ -32,13 +32,14 @@ export class catchExceptionsFilter extends BaseExceptionFilter {
         }else if(exception.code === 11000){
             this.handleDuplicationError(exception,object);
         }else{
+            console.log(exception);
             this.internalError(object);
         };
         res.status(object.code).json(object);
     };
     handleDuplicationError(exception:MongoError,object:ServerError){
         const val= exception.errmsg.match(/(["'])(?:(?=(\\?))\2.)*?\1/)[0];
-            object.message=` duplicate value of ${ val } `;
+        object.message=` duplicate value of ${ val } `;
     };
     handleMongoValidatioError(exception:Error.ValidationError,object:ServerError){
         object.message=Object
