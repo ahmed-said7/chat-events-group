@@ -14,6 +14,7 @@ import { ServiceProviderModule } from './user services/userServices.module';
 import { FeedModule } from './feed/feed.module';
 import { APP_FILTER } from '@nestjs/core';
 import { catchExceptionsFilter } from './errorHandler/base.filter';
+import { paytabController } from './api.controller';
 
 
 @Module({
@@ -32,7 +33,7 @@ import { catchExceptionsFilter } from './errorHandler/base.filter';
     EventModule,ApiModule,SocketModule,ServiceProviderModule,
     FeedModule
   ],
-  controllers: [],
+  controllers: [paytabController],
   providers: [{
     provide:APP_FILTER,
     useClass:catchExceptionsFilter

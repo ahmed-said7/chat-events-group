@@ -1,9 +1,10 @@
+import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Schema , Document } from "mongoose";
 import { Models } from "src/enums/models";
 import { mongodbId } from "src/group/group.service";
 
-
+@Injectable()
 export class GroupSchema {
     schema=new Schema({
         name:{
