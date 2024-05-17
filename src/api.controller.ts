@@ -32,7 +32,7 @@ export class paytabController {
             }
         };
     }
-    @Get()
+    @Post("response")
     async getPayment(){
         return { status:"paid" }
     };
