@@ -7,7 +7,22 @@ export class paytabController {
     async logQuery(@Req() req:Request ){
         console.log(req.query);
         if(req.query.tranRef){
-            await 
+            const res=await 
+                fetch('https://accept.paymob.com/api/auth/tokens'
+                ,{
+                    method: 'POST',
+                    headers:{
+                        'Authorization':"S9J99ZWKLN-JJ6J66WLTL-ZZRHJTG2GL",
+                        'Content-Type':"application/json"
+                    },
+                    body:JSON.stringify({ 
+                        'profile_id':"137405",
+                        'tran_ref':req.query.tranRef
+                    })
+                });
+            console.log(res.ok);
+            const data=await res.json();
+            console.log(data);
         };
     }
 };
