@@ -23,6 +23,10 @@ export class paytabController {
             console.log(res.ok);
             const data=await res.json();
             console.log(data);
+            // ['payment_result']['response_status']
+            if( data?.payment_result?.response_status && data?.payment_result?.response_status == "A" ){
+                console.log("paymentSucceded");
+            }
         };
     }
 };
