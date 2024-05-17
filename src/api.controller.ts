@@ -1,31 +1,31 @@
 import { Controller, Get, Post, Req } from "@nestjs/common";
 import { Request } from "express";
+import axios from "axios";
 
 @Controller("paytab")
 export class paytabController {
     @Post()
     async logQuery(@Req() req:Request ){
         if(req.body.tranRef){
-            const res=await 
-                fetch('https://merchant-egypt.paytabs.com/payment/query'
-                ,{
-                    method: 'POST',
-                    headers:{
-                        'Authorization':"S9J99ZWKLN-JJ6J66WLTL-ZZRHJTG2GL",
-                        'Content-Type':"application/json"
-                    },
-                    body:JSON.stringify({ 
-                        profile_id:"137405",
-                        tran_ref:req.body.tranRef
-                    })
+            const data = {
+                profile_id: "137405",
+                tran_ref: req.body.tranRef
+            };
+            const config = {
+                method: 'post',
+                url: 'https://secure-egypt.paytabs.com/payment/query',
+                headers: {
+                    Authorization: `S9J99ZWKLN-JJ6J66WLTL-ZZRHJTG2GL`,
+                    'Content-Type': 'application/json',
+                }, data
+            };
+            axios(config)
+                .then((response) => {
+                  console.log(response.data); // Handle the successful response data here
+                })
+                .catch((error) => {
+                  console.error(error); // Handle any errors during the request
                 });
-            console.log(res.ok);
-            const data=await res.json();
-            console.log(data);
-            // ['payment_result']['response_status']
-            if( data?.payment_result?.response_status && data?.payment_result?.response_status == "A" ){
-                console.log("paymentSucceded");
-            }
         };
     }
     @Post("response")
