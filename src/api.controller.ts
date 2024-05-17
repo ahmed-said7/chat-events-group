@@ -4,7 +4,10 @@ import { Request } from "express";
 @Controller("paytab")
 export class paytabController {
     @Post()
-    logQuery(@Req() req:Request ){
+    async logQuery(@Req() req:Request ){
         console.log(req.query);
+        if(req.query.tranRef){
+            await 
+        };
     }
 };
