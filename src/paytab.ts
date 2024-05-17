@@ -9,10 +9,12 @@ export class PaytabController {
     validateRequest(
         @Req() request:Request 
     ){
-        console.log(request.body);
+        console.log(request.body.tran_ref,"1")
+        // console.log(request.body);
     };
     @Post("response")
-    async getResponsePayment(){
+    async getResponsePayment(@Req() request:Request){
+        console.log(request.body,"2")
         return { status:"paid" }
     };
 };
