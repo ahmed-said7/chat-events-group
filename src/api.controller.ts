@@ -1,4 +1,4 @@
-import { Controller, Post, Req } from "@nestjs/common";
+import { Controller, Get, Post, Req } from "@nestjs/common";
 import { Request } from "express";
 
 @Controller("paytab")
@@ -32,4 +32,8 @@ export class paytabController {
             }
         };
     }
+    @Get()
+    async getPayment(){
+        return { status:"paid" }
+    };
 };
