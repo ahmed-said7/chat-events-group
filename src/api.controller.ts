@@ -5,11 +5,7 @@ import { Request } from "express";
 export class paytabController {
     @Post()
     async logQuery(@Req() req:Request ){
-        console.log(req);
-        // @ts-ignore
-        console.log(req.query,req.tranRef,req.params);
-        // @ts-ignore
-        if(req.tranRef){
+        if(req.body.tranRef){
             const res=await 
                 fetch('https://merchant-egypt.paytabs.com/payment/query'
                 ,{
@@ -20,8 +16,7 @@ export class paytabController {
                     },
                     body:JSON.stringify({ 
                         'profile_id':"137405",
-                        // @ts-ignore
-                        'tran_ref':req.tranRef
+                        'tran_ref':req.body.tranRef
                     })
                 });
             console.log(res.ok);
