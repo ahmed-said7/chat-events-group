@@ -8,7 +8,7 @@ export class paytabController {
         console.log(req.query);
         if(req.query.tranRef){
             const res=await 
-                fetch('https://accept.paymob.com/api/auth/tokens'
+                fetch('https://merchant-egypt.paytabs.com/payment/query'
                 ,{
                     method: 'POST',
                     headers:{
