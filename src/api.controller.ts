@@ -15,7 +15,7 @@ export class paytabController {
                         'Content-Type':"application/json"
                     },
                     body:JSON.stringify({ 
-                        profile_id:137405,
+                        profile_id:"137405",
                         tran_ref:req.body.tranRef
                     })
                 });
