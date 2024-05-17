@@ -5,7 +5,8 @@ import { Request } from "express";
 export class paytabController {
     @Post()
     async logQuery(@Req() req:Request ){
-        console.log(req.query);
+        // @ts-ignore
+        console.log(req.query,req.tranRef);
         if(req.query.tranRef){
             const res=await 
                 fetch('https://merchant-egypt.paytabs.com/payment/query'
