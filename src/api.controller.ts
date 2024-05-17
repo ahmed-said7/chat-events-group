@@ -5,8 +5,9 @@ import { Request } from "express";
 export class paytabController {
     @Post()
     async logQuery(@Req() req:Request ){
+        console.log(req);
         // @ts-ignore
-        console.log(req.query,req.tranRef);
+        console.log(req.query,req.tranRef,req.params);
         // @ts-ignore
         if(req.tranRef){
             const res=await 
