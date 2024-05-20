@@ -51,6 +51,7 @@ export class FeedService {
         await user.save();
         return { posts , events , services };
     };
+
     async getNewFeed( user : UserDoc  ){
         if(!user.lastSeen){
             return this.getFeed( user );
