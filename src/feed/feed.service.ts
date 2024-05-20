@@ -19,24 +19,34 @@ export class FeedService {
         @InjectModel(Models.Service) private providerModel: Model<ServiceProviderDoc>
     ){};
     async getFeed( user : UserDoc , page?:string  ){
-        const groupIds=(await  this.groupModel.find({ "users" : user._id }).select("_id"))
-            .map( ( { _id } ) => _id );
+        const groupIds=(await  this.groupModel.find({ "users" : user._id })).map( ( { _id } ) => _id );
         let limit=5;
-        const skip=( ( parseInt(page) || 1 ) - 1 ) * limit;
-        const posts=await this.postModel.find({ group : { $in : groupIds } })
+        let skipRate= parseInt(page) - 1 || 0;
+        const postsCount=await this.postModel.find( { group : { $in : groupIds } } ) . countDocuments();
+        const serviceCount=await this.providerModel.countDocuments();
+        const eventCount=await this.eventModel.countDocuments();
+        const sum=postsCount+serviceCount+eventCount;
+        const postLimit= Math.floor( ( ( postsCount / sum ) * 100 ) / limit );
+        const serviceLimit= Math.floor( ( ( serviceCount / sum ) * 100 ) / limit );
+        const eventLimit= Math.floor( ( ( eventCount / sum ) * 100 ) / limit );
+        const posts=await this.postModel
+            .find( { group : { $in : groupIds } } ) 
             .populate(
                 [
                     {path:"user",select:"name image"}
                     ,{path:"user",select:"name image"}
                 ])
             .sort("-createdAt")
-            .skip(skip).limit(limit);
+            .skip( skipRate*postLimit ).limit(postLimit);
 
         const events=await this.eventModel.find()
-            .populate({path:"admin",select:"name image"}).sort("-createdAt").skip(skip).limit(limit);
+            .populate({path:"admin",select:"name image"})
+            .sort("-createdAt").skip( skipRate*eventLimit ).limit(eventLimit);
 
-            const services=await this.providerModel.find()
-            .populate({path:"admin",select:"name image"}).sort("-createdAt").skip(skip).limit(limit);
+        const services=await this.providerModel.find()
+            .populate({path:"admin",select:"name image"})
+            .sort("-createdAt").skip( skipRate*serviceLimit ).limit(serviceLimit);
+
         user.lastSeen=new Date();
         await user.save();
         return { posts , events , services };
