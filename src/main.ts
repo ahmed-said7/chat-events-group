@@ -9,6 +9,6 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({extended:false}))
   app.useGlobalPipes(new ValidationPipe({whitelist:true}));
   app.useStaticAssets("src/uploads");
-  await app.listen(6100);
+  await app.listen(4000);
 }
 bootstrap();
