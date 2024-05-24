@@ -7,6 +7,8 @@ import * as jwt from "jsonwebtoken";
 import { ConfigService } from "@nestjs/config";
 import { UserDoc } from "src/schema.factory/user.schema";
 import { mongodbId } from "src/group/group.service";
+import * as crypto from "crypto";
+import { mailerService } from "src/nodemailer/nodemailer.service";
 
 
 interface SignUp {
@@ -39,7 +41,8 @@ export class UserService {
     constructor
     (
         private config:ConfigService,
-        @InjectModel(Models.User) private Usermodel: Model<UserDoc>
+        @InjectModel(Models.User) private Usermodel: Model<UserDoc>,
+        private mailerService:mailerService
     ) {};
     async signup(body:SignUp){
         let user=await this.validateEmail(body.email);
@@ -47,8 +50,48 @@ export class UserService {
             throw new HttpException("password does not match password confirm",400);
         };
         user = await this.Usermodel.create(body);
+        await this.emailVerification(user);
         const token=this.createtoken(user._id);
         return { token , user };
+    };
+    private async emailVerification(user:UserDoc){
+        const code=this.mailerService.resetCode();
+        user.emailVerifiedCode=this.createHash(code);
+        user.emailVerifiedExpired=new Date( Date.now() + 5 * 60 * 1000 );
+        try{
+            await this.mailerService.sendWelcome({email:user.email,resetCode:code});
+        }catch(err){
+            user.emailVerifiedCode=undefined;
+            user.emailVerifiedExpired=undefined;
+            await user.save();
+            throw new HttpException("nodemailer error",400);
+        };
+        await user.save();
+    };
+    async createEmailVerificationCode( user:UserDoc ){
+        if(user.emailVertified){
+            throw new HttpException("your email has been verified already",400);
+        };
+        await this.emailVerification(user);
+        return {status:"code sent"};
+    };
+    private createHash(code:string){
+        return crypto.createHash('sha256').update(code).digest('hex');
+    }
+
+    async verifyEmail(code:string){
+        const hash=this.createHash(code);
+        const user=await this.Usermodel.findOne({
+            emailVerifiedCode:hash,emailVerifiedExpired:{$gt:Date.now()}
+        });
+        if(!user){
+            throw new HttpException('email Verified Code expired',400);
+        };
+        user.emailVerifiedCode=undefined;
+        user.emailVerifiedExpired=undefined;
+        user.emailVertified=true;
+        await user.save();
+        return {status:"verified"};
     };
     async login(body:LogIn){
         let user=await this.Usermodel.findOne({ email: body.email });

@@ -5,9 +5,11 @@ import { SchemaFactoryModule } from "src/schema.factory/schema.module";
 import { UserSchema } from "src/schema.factory/user.schema";
 import { UserService } from "./user.service";
 import { UserController } from "./user.controller";
+import { mailerModule } from "src/nodemailer/nodemailer.module";
 
 @Module({
     imports:[
+        mailerModule,
         MongooseModule.forFeatureAsync([
             { 
                 name:Models.User,
@@ -19,7 +21,10 @@ import { UserController } from "./user.controller";
             }
         ])
     ],
-    providers:[UserService,{provide:"folder",useValue:"user"}],
+    providers:[
+        UserService
+        ,{provide:"folder",useValue:"user"}
+    ],
     controllers:[UserController]
 })
 export class UserModule {};

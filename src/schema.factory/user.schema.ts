@@ -28,7 +28,10 @@ export class UserSchema {
             default:"user"
         },
         passwordChangedAt:Date,
-        lastSeen:Date
+        lastSeen:Date,
+        emailVertified:{type:Boolean,default:false},
+        emailVerifiedExpired:Date,
+        emailVerifiedCode:String,
         },{
             timestamps:true
         }
@@ -62,4 +65,7 @@ export interface UserDoc extends Document {
     role:string;
     passwordChangedAt:Date;
     lastSeen:Date;
+    emailVertified:boolean;
+    emailVerifiedExpired:Date;
+    emailVerifiedCode:string;
 };

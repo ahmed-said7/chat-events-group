@@ -7,6 +7,7 @@ import { ApiModule } from "src/filter/api.module";
 import { ServiceProviderSchema } from "src/schema.factory/user.service.schema";
 import { ServiceProvider } from "./userServices.service";
 import { ServiceProviderController } from "./userServices.controller";
+import { mailerModule } from "src/nodemailer/nodemailer.module";
 
 
 @Module({
