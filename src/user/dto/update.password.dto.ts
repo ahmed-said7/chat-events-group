@@ -14,3 +14,17 @@ export class UpdatePasswordDto {
     @IsString()
     currentPassword: string;
 };
+
+export class changePasswordDto {
+    @IsNotEmpty()
+    @IsEmail()
+    email: string;
+    
+    @IsNotEmpty()
+    @IsString()
+    password: string;
+
+    @IsNotEmpty()
+    @IsString()
+    passwordConfirm: string;
+};
