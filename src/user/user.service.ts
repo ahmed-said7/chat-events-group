@@ -179,7 +179,10 @@ export class UserService {
         const hash=this.createHash(resetCode);
         let user=await this.Usermodel
             .findOne
-            ({ passwordResetCode:hash , passwordResetCodeExpires:{ $gt: Date.now() } });
+            ({ 
+                passwordResetCode:hash , 
+                passwordResetCodeExpires:{ $gt: Date.now() } }
+            );
         if(! user ){
             throw new HttpException('user not found',400);
         };
@@ -187,7 +190,7 @@ export class UserService {
         user.passwordResetCodeExpires=undefined;
         user.passwordResetCodeVertified=true;
         await user.save();
-        return {status:'vertified'}
+        return {status:'verified'}
     };
     
     async changePassword(body:{email:string; password:string; passwordConfirm:string;}){

@@ -6,7 +6,7 @@ import { Protected } from "src/guards/protect.user";
 import { UpdatePasswordDto, changePasswordDto } from "./dto/update.password.dto";
 import { AuthUser } from "src/decorator/current.user";
 import { UserDoc } from "src/schema.factory/user.schema";
-import { UpdateUserDto } from "./dto/update.user.dto";
+import { UpdateUserDto, forgetPassowrdBody } from "./dto/update.user.dto";
 import { ParseMongoId } from "src/pipes/validate.mogoid";
 import { mongodbId } from "src/group/group.service";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -38,19 +38,19 @@ export class UserController {
     verifyUserEmail( @Param("code") code:string  ){
         return this.userService.verifyEmail(code);
     };
-    @Post('auth/forget-password')
-    forgetPassowrd(@Body('email') email:string){
-        return this.userService.forgetPassword(email);
+    @Patch('auth/forget-password')
+    forgetPassowrd(@Body() body: forgetPassowrdBody ){
+        return this.userService.forgetPassword(body.email);
     };
 
-    @Post('auth/change-password')
+    @Patch('auth/change-password')
     changePassword(@Body() body:changePasswordDto ){
         return this.userService.changePassword(body);
     };
 
-    @Post('auth/reset-password/:code')
-    getOne(@Param('code') code:string){
-        return this.userService.verifyEmail(code);
+    @Patch('auth/reset-password/:code')
+    verifyResetCode(@Param('code') code:string){
+        return this.userService.vertfyResetCode(code);
     };
 
     @Delete("user")
@@ -58,27 +58,32 @@ export class UserController {
     deleteUser( @AuthUser() user:UserDoc  ){
         return this.userService.deleteUser(user);
     };
+
     @Get("user/get-me")
     @UseGuards(Protected)
     getUser( @AuthUser() user:UserDoc  ){
         return this.userService.getUser(user);
     };
+
     @Patch("user")
     @UseGuards(Protected)
     @UseInterceptors(FileInterceptor("image"),FileInterceptorImage)
     updateUser( @AuthUser() user:UserDoc,@Body() body:UpdateUserDto  ){
         return this.userService.updateUser(body,user);
     };
+
     @Get("user/search/:keyword")
     @UseGuards(Protected)
     getUsers( 
         @Param("keyword") keyword:string  ){
         return this.userService.getUsersBySearchName(keyword);
     };
-    @Get("user/one/:id")
+
+    @Get("user/:id")
     @UseGuards(Protected)
     getOneUser( 
         @Param("id",ParseMongoId) userId:mongodbId  ){
         return this.userService.getOneUser(userId);
     };
+
 };

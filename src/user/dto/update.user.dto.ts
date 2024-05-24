@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, IsOptional, IsString, MinLength } from "class-validator";
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
 import { userType } from "src/enums/user.type";
 
 export class UpdateUserDto {
@@ -10,6 +10,12 @@ export class UpdateUserDto {
     @IsEnum(userType)
     role:string;
     @IsOptional()
+    @IsEmail({},{message:"provide valid email address"})
+    email: string;
+};
+
+export class forgetPassowrdBody {
+    @IsNotEmpty()
     @IsEmail({},{message:"provide valid email address"})
     email: string;
 };
