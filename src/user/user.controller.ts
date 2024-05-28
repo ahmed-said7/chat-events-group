@@ -38,17 +38,17 @@ export class UserController {
     verifyUserEmail( @Param("code") code:string  ){
         return this.userService.verifyEmail(code);
     };
-    @Patch('auth/forget-password')
+    @Patch('auth/forget-pass')
     forgetPassowrd(@Body() body: forgetPassowrdBody ){
         return this.userService.forgetPassword(body.email);
     };
 
-    @Patch('auth/change-password')
+    @Patch('auth/update-pass')
     changePassword(@Body() body:changePasswordDto ){
         return this.userService.changePassword(body);
     };
 
-    @Patch('auth/reset-code/:code')
+    @Patch('auth/code/:code')
     verifyResetCode(@Param('code') code:string){
         return this.userService.vertfyResetCode(code);
     };
@@ -59,7 +59,7 @@ export class UserController {
         return this.userService.deleteUser(user);
     };
 
-    @Get("user/get-me")
+    @Get("user")
     @UseGuards(Protected)
     getUser( @AuthUser() user:UserDoc  ){
         return this.userService.getUser(user);
@@ -72,7 +72,7 @@ export class UserController {
         return this.userService.updateUser(body,user);
     };
 
-    @Get("user/search/:keyword")
+    @Get("search/:keyword")
     @UseGuards(Protected)
     getUsers( 
         @Param("keyword") keyword:string  ){
