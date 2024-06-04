@@ -17,12 +17,14 @@ import { catchExceptionsFilter } from './errorHandler/base.filter';
 import { AddresseModule } from './addresses/addresse.module';
 import { QuestionModule } from './questions/question.module';
 import { PaytabModule } from './paytab/paytab.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal:true  }),
+    EventEmitterModule.forRoot({global:true}),
     MongooseModule.forRootAsync({
       inject:[ConfigService],
       useFactory:(config:ConfigService)=>{
