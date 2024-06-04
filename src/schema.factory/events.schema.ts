@@ -24,6 +24,14 @@ export class EventSchema {
             type:Schema.Types.ObjectId,
             ref:Models.User
         }],
+        likes:[{
+            type:Schema.Types.ObjectId,
+            ref:Models.User
+        }],
+        comments:[{ 
+            user : { type:Schema.Types.ObjectId , ref:Models.User },
+            content : { type : String }
+        }],
         image:String,
         admin : {
             type:Schema.Types.ObjectId,
@@ -49,14 +57,16 @@ export class EventSchema {
 };
 
 export interface EventDoc extends Document {
-    name:string,
-    details:string,
-    location:[number,number],
-    startedAt:Date,
-    endedAt:Date,
-    interested:mongodbId[],
-    went:mongodbId[],
-    image:string,
-    address:string
+    name:string;
+    details:string;
+    location:[number,number];
+    startedAt:Date;
+    endedAt:Date;
+    interested:mongodbId[];
+    went:mongodbId[];
+    likes:mongodbId[];
+    comments:{ _id?: mongodbId; user:mongodbId; content:string; }[];
+    image:string;
+    address:string;
     admin : mongodbId;
 };

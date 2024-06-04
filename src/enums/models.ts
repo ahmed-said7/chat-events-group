@@ -5,5 +5,7 @@ export enum Models {
     Message="message",
     Group="group",
     Post="post",
-    Service="service"
+    Service="service",
+    Contact="contact",
+    Question="question"
 }

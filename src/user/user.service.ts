@@ -14,7 +14,7 @@ import { mailerService } from "src/nodemailer/nodemailer.service";
 interface SignUp {
     name: string;
     password: string;
-    passwordConfirm:string;
+    // passwordConfirm:string;
     email: string;
     role?:string;
 };
@@ -46,9 +46,9 @@ export class UserService {
     ) {};
     async signup(body:SignUp){
         let user=await this.validateEmail(body.email);
-        if( body.password !== body.passwordConfirm ){
-            throw new HttpException("password does not match password confirm",400);
-        };
+        // if( body.password !== body.passwordConfirm ){
+        //     throw new HttpException("password does not match password confirm",400);
+        // };
         user = await this.Usermodel.create(body);
         await this.emailVerification(user);
         const token=this.createtoken(user._id);
@@ -219,5 +219,38 @@ export class UserService {
         }
         );
         return { users };
+    };
+    async addFollow(userId:mongodbId,user:UserDoc){
+        const followingUser=await this.Usermodel.findById(userId);
+        if(! followingUser ){
+            throw new HttpException("User not found",400);
+        };
+        if( followingUser.followers.includes(user._id) ){
+            throw new HttpException("user already added ",400)
+        };
+        followingUser.followers.push(user._id);
+        await followingUser.save();
+        return { status : "follow sent" };
+    };
+    async removeFollow(userId:mongodbId,user:UserDoc){
+        const followingUser=await this.Usermodel.findById(userId);
+        if(! followingUser ){
+            throw new HttpException("User not found",400);
+        };
+        if( !followingUser.followers.includes(user._id) ){
+            throw new HttpException("you are not in user followers list",400)
+        };
+        followingUser.followers=followingUser.
+            followers.filter( id => id.toString() != user._id.toString() );
+        await followingUser.save();
+        return { status : "follow sent" };
+    };
+    async getUserFollowers( userId: mongodbId ){
+        const followingUser=await this.Usermodel
+            .findById(userId).populate("followers");
+        if(! followingUser ){
+            throw new HttpException("User not found",400);
+        };
+        return { followers : followingUser.followers };
     };
 };

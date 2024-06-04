@@ -7,12 +7,22 @@ import { MessageSchema } from "./message.schema";
 import { EventSchema } from "./events.schema";
 import { ConfigModule } from "@nestjs/config";
 import { ServiceProviderSchema } from "./user.service.schema";
+import { ContactSchema } from "./contact.schema";
+import { QuestionSchema } from "./question.schema";
 
 
 @Module({
     imports:[ConfigModule.forRoot()],
-    providers:[UserSchema,ChatSchema,GroupSchema,PostSchema,MessageSchema,EventSchema,ServiceProviderSchema],
-    exports:[UserSchema,ChatSchema,GroupSchema,PostSchema,MessageSchema,EventSchema,ServiceProviderSchema]
+    providers:[
+        UserSchema,ChatSchema,GroupSchema,
+        PostSchema,MessageSchema,EventSchema,ServiceProviderSchema,
+        ContactSchema,QuestionSchema
+    ],
+    exports:[
+        UserSchema,ChatSchema,GroupSchema,PostSchema
+        ,MessageSchema,EventSchema,ServiceProviderSchema,
+        ContactSchema,QuestionSchema
+    ]
 })
 
 export class SchemaFactoryModule {};

@@ -10,6 +10,14 @@ import { mongodbId } from "src/group/group.service";
 import { apiFeatures } from "src/filter/api.service";
 import { QueryEventDto } from "./dto/event.query.dto";
 
+interface CreateComment {
+    content:string;
+    user?:mongodbId;
+};
+
+interface UpdateComment {
+    content?:string;
+};
 
 @Injectable()
 export class EventService {
@@ -138,5 +146,131 @@ export class EventService {
             throw new HttpException("event not found",400);
         };
         return { attended : eventExists.went };
+    };
+    async addEventToSave(eventId:mongodbId,user:UserDoc){
+        const eventExists =await this.eventModel.findById( eventId );
+        if( ! eventExists ){
+            throw new HttpException("event not found",400);
+        };
+        if( user.savedEvents.includes(eventId) ){
+            throw new HttpException("event already added to saved list",400);
+        };
+        user.savedEvents.push(eventId);
+        await user.save();
+        return { status : "event added to saved list" };
+    };
+    async removeEventFromSave(eventId:mongodbId,user:UserDoc){
+        const eventExists =await this.eventModel.findById( eventId );
+        if( ! eventExists ){
+            throw new HttpException("event not found",400);
+        };
+        if( !user.savedEvents.includes(eventId) ){
+            throw new HttpException("event is not added to saved list",400);
+        };
+        user.savedEvents=user.savedEvents
+            .filter ( id => id.toString() != eventId.toString()  )
+        await user.save();
+        return { status : "event removed from saved list" };
+    };
+    async addLikeToEvent(eventId:mongodbId,user:UserDoc){
+        const eventExists =await this.eventModel.findById( eventId );
+        if( ! eventExists ){
+            throw new HttpException("event not found",400);
+        };
+        if( eventExists.likes.includes(user._id) ){
+            throw new HttpException("user already added like",400);
+        };
+        await this.eventModel.
+            findByIdAndUpdate(eventId,{ $addToSet : { likes : user._id } });
+        return { status : "like added to event" };
+    };
+    async removeLikeFromEvent(eventId:mongodbId,user:UserDoc){
+        const eventExists =await this.eventModel.findById( eventId );
+        if( ! eventExists ){
+            throw new HttpException("event not found",400);
+        };
+        if( !eventExists.likes.includes(user._id) ){
+            throw new HttpException("event is not liked by user",400);
+        };
+        eventExists.likes=eventExists.likes
+            .filter ( id => id.toString() != user._id.toString()  )
+        await eventExists.save();
+        return { status : "like removed from event" };
+    };
+    async getSavedEvents( user:UserDoc ){
+        const saved=await user.populate("savedEvents");
+        return { events : saved.savedEvents };
+    };
+    async getEventLikes(eventId:mongodbId){
+        const eventExists =await this.eventModel.
+            findById( eventId ).populate("likes");
+        if( ! eventExists ){
+            throw new HttpException("event not found",400);
+        };
+        return { likes : eventExists.likes };
+    };
+    async addComment(body:CreateComment,eventId:mongodbId,user:UserDoc){
+        const event=await this.eventModel.findOne({ 
+            _id : eventId
+        });
+        if( !event ){
+            throw new HttpException("event not found" , 400 );
+        };
+        event.comments.push({ content : body.content , user:user._id  });
+        await event.save();
+        return { status:"comment added",comment:event.comments[event.comments.length-1]  }
+    };
+    async removeComment(eventId:mongodbId,commentId:mongodbId,user:UserDoc){
+        const event=await this.eventModel.findOne({ 
+            _id : eventId
+        });
+        if( !event ){
+            throw new HttpException("event not found" , 400 );
+        };
+        const index=event.comments
+            .findIndex( ( { _id } ) => _id.toString() == commentId.toString()  );
+        if( index == -1 ){
+            throw new HttpException("No comment found",400);
+        };
+        if(  
+            event.comments[index].user.toString() == user._id.toString()
+        ){
+            event.comments.splice(index,1);
+            await event.save();
+            return { status:"deleted" }
+        }else {
+            throw new HttpException("you are not allowed to delete a comment",400);
+        };
+    };
+    async updateComment(body:UpdateComment,eventId:mongodbId,commentId:mongodbId,user:UserDoc){
+        const event=await this.eventModel.findOne({ 
+            _id : eventId
+        });
+        if( !event ){
+            throw new HttpException("event not found" , 400 );
+        };
+        const index=event.comments
+            .findIndex( ( { _id } ) => _id.toString() == commentId.toString()  );
+        if( index == -1 ){
+            throw new HttpException("No comment found",400);
+        };
+        if( 
+            event.comments[index].user.toString() == user._id.toString()
+        ){
+            event.comments[index].content=body.content;
+            await event.save();
+            return { status:"updated" , comment:event.comments[index] }
+        }else {
+            throw new HttpException("you are not allowed to update a comment",400);
+        };
+    };
+    async getComments(eventId:mongodbId , user:UserDoc){
+        const event=await this.eventModel.findOne({
+            _id : eventId
+        }).populate("comments.user");
+        if( !event ){
+            throw new HttpException("event not found" , 400 );
+        };
+        return { comments : event.comments };
     };
 };
