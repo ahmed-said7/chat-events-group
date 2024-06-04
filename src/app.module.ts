@@ -18,6 +18,7 @@ import { AddresseModule } from './addresses/addresse.module';
 import { QuestionModule } from './questions/question.module';
 import { PaytabModule } from './paytab/paytab.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { TicketModule } from './ticket/ticket.module';
 
 
 
@@ -37,7 +38,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     PostModule,MessageModule,
     EventModule,ApiModule,SocketModule,ServiceProviderModule,
     FeedModule,AddresseModule,QuestionModule,
-    PaytabModule
+    PaytabModule,TicketModule
   ],
   controllers: [],
   providers: [{

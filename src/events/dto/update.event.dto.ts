@@ -18,7 +18,6 @@ export class UpdateEventDto {
     @IsOptional()
     @Transform( ( {value} )=> new Date(value) )
     @IsDate()
-    
     startedAt:Date;
     @IsOptional()
     @Transform( ( {value} )=> new Date(value) )

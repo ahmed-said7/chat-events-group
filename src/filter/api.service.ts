@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Query } from "mongoose";
+import { PopulateOption, Query } from "mongoose";
 import {} from "mongoose";
 export interface g {
     page?:string;
@@ -17,7 +17,7 @@ export interface Pagination {
     limit?:number;
 };
 
-
+@Injectable()
 export class apiFeatures< T , m extends g > {
     public paginationObj:Pagination={};
     query:Query< T[] , T >;
@@ -57,7 +57,7 @@ export class apiFeatures< T , m extends g > {
         };
         return this;
     };
-    population( field : string  ){
+    population( field : string | string[]  ){
         if(field){
             this.query=this.query.populate(field);
         };
