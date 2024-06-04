@@ -44,4 +44,8 @@ export class QuestionService {
         const contact=await this.contactModel.create(body);
         return { status : "contact sent" };
     };
+    async getAllContacts(){
+        const contacts=await this.contactModel.find().sort("-createdAt");
+        return { contacts };
+    };
 };
