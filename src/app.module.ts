@@ -15,6 +15,7 @@ import { FeedModule } from './feed/feed.module';
 import { APP_FILTER } from '@nestjs/core';
 import { catchExceptionsFilter } from './errorHandler/base.filter';
 import { AddresseModule } from './addresses/addresse.module';
+import { QuestionModule } from './questions/question.module';
 
 
 
@@ -32,7 +33,7 @@ import { AddresseModule } from './addresses/addresse.module';
     UserModule,GroupModule,ChatModule,
     PostModule,MessageModule,
     EventModule,ApiModule,SocketModule,ServiceProviderModule,
-    FeedModule,AddresseModule
+    FeedModule,AddresseModule,QuestionModule
   ],
   controllers: [],
   providers: [{

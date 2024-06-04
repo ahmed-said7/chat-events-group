@@ -9,6 +9,7 @@ import { ConfigModule } from "@nestjs/config";
 import { ServiceProviderSchema } from "./user.service.schema";
 import { ContactSchema } from "./contact.schema";
 import { QuestionSchema } from "./question.schema";
+import { TicketSchema } from "./ticket.schema";
 
 
 @Module({
@@ -16,12 +17,12 @@ import { QuestionSchema } from "./question.schema";
     providers:[
         UserSchema,ChatSchema,GroupSchema,
         PostSchema,MessageSchema,EventSchema,ServiceProviderSchema,
-        ContactSchema,QuestionSchema
+        ContactSchema,QuestionSchema,TicketSchema
     ],
     exports:[
         UserSchema,ChatSchema,GroupSchema,PostSchema
         ,MessageSchema,EventSchema,ServiceProviderSchema,
-        ContactSchema,QuestionSchema
+        ContactSchema,QuestionSchema,TicketSchema
     ]
 })
 

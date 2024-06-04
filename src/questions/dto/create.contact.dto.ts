@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional, IsString } from "class-validator";
 
-export class CreateMessageDto {
+export class CreateContactDto {
     @IsOptional()
     @IsString()
     email:string;

@@ -6,8 +6,9 @@ import { QuestionDoc } from "src/schema.factory/question.schema";
 import { CreateQuestionDto } from "./dto/create.question.dto";
 import { mongodbId } from "src/group/group.service";
 import { UpdateQuestionDto } from "./dto/update.question.dto";
-import { CreateMessageDto } from "src/message/dto/create.message.dto";
 import { ContactDoc } from "src/schema.factory/contact.schema";
+import { CreateContactDto } from "./dto/create.contact.dto";
+import { UserDoc } from "src/schema.factory/user.schema";
 
 
 
@@ -17,11 +18,17 @@ export class QuestionService {
         @InjectModel(Models.Question) private questionModel:Model<QuestionDoc>,
         @InjectModel(Models.Contact) private contactModel:Model<ContactDoc>
     ){};
-    async createQuestion(body:CreateQuestionDto){
+    async createQuestion(body:CreateQuestionDto,user:UserDoc){
+        if( user.role != "admin" ){
+            throw new HttpException("route allowed only to admins",400);
+        };
         const question=await this.questionModel.create(body);
         return { question };
     };
-    async deleteQuestion(id:mongodbId){
+    async deleteQuestion(id:mongodbId,user:UserDoc){
+        if( user.role != "admin" ){
+            throw new HttpException("route allowed only to admins",400);
+        };
         const question=await this.questionModel.findByIdAndDelete(id);
         if(! question ){
             throw new HttpException("question not found",400);
@@ -32,7 +39,10 @@ export class QuestionService {
         const questions=await this.questionModel.find().sort("-createdAt");
         return { questions };
     };
-    async updateQuestion(body:UpdateQuestionDto,questionId:mongodbId){
+    async updateQuestion(body:UpdateQuestionDto,questionId:mongodbId,user:UserDoc){
+        if( user.role != "admin" ){
+            throw new HttpException("route allowed only to admins",400);
+        };
         const question=await this.questionModel
             .findByIdAndUpdate(questionId,body,{new:true});
         if(!question){
@@ -40,7 +50,7 @@ export class QuestionService {
         };
         return { question };
     }
-    async addContact(body:CreateMessageDto){
+    async addContact(body:CreateContactDto){
         const contact=await this.contactModel.create(body);
         return { status : "contact sent" };
     };

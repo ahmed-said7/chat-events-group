@@ -10,6 +10,8 @@ import { QueryEventDto } from "./dto/event.query.dto";
 import { UpdateEventDto } from "./dto/update.event.dto";
 import { FileInterceptorImage } from "src/interceptor/file.interceptor";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { CreateCommentDto } from "./dto/comment.create.dto";
+import { UpdateCommentDto } from "./dto/update.comment.dto";
 
 
 @Controller("event")
@@ -117,5 +119,88 @@ export class EventController {
         @AuthUser() user:UserDoc
     ){
         return this.eventService.deleteEvent(eventId,user);
+    };
+    @Post(":eventId")
+    @UseGuards(Protected)
+    createEventComment(
+        @Param("eventId",ParseMongoId) eventId: mongodbId,
+        @Body() body:CreateCommentDto ,
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.addComment(body,eventId,user);
+    };
+    @Delete(":eventId/comment/:commentId")
+    @UseGuards(Protected)
+    deleteEventComment(
+        @Param("eventId",ParseMongoId) eventId: mongodbId,
+        @Param("commentId",ParseMongoId) commentId: mongodbId,
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.removeComment(eventId,commentId,user);
+    };
+    @Patch(":eventId/comment/:commentId")
+    @UseGuards(Protected)
+    updateEventComment(
+        @Param("eventId",ParseMongoId) eventId: mongodbId,
+        @Param("commentId",ParseMongoId) commentId: mongodbId,
+        @Body() body:UpdateCommentDto ,
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.updateComment(body,eventId,commentId,user);
+    };
+    @Patch("comments/:eventId")
+    @UseGuards(Protected)
+    getEventComments(
+        @Param("eventId",ParseMongoId) eventId: mongodbId,
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.getComments(eventId);
+    };
+    @Post("likes/:eventId")
+    @UseGuards(Protected)
+    addEventLike(
+        @Param("eventId",ParseMongoId) eventId: mongodbId,
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.addLikeToEvent(eventId,user);
+    };
+    @Delete("likes/:eventId")
+    @UseGuards(Protected)
+    removeEventLike(
+        @Param("eventId",ParseMongoId) eventId: mongodbId,
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.removeLikeFromEvent(eventId,user);
+    };
+    @Get("likes/:eventId")
+    @UseGuards(Protected)
+    getEventLikes(
+        @Param("eventId",ParseMongoId) eventId: mongodbId,
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.getEventLikes(eventId);
+    };
+    @Post("saved/:eventId")
+    @UseGuards(Protected)
+    addSavedEvent(
+        @Param("eventId",ParseMongoId) eventId: mongodbId,
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.addEventToSave(eventId,user);
+    };
+    @Delete("saved/:eventId")
+    @UseGuards(Protected)
+    removeSavedEvent(
+        @Param("eventId",ParseMongoId) eventId: mongodbId,
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.removeEventFromSave(eventId,user);
+    };
+    @Get("saved")
+    @UseGuards(Protected)
+    getSavedEvents(
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.getSavedEvents(user);
     };
 };

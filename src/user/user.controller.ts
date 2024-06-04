@@ -86,4 +86,27 @@ export class UserController {
         return this.userService.getOneUser(userId);
     };
 
+    @Post("user/follow/:userId")
+    @UseGuards(Protected)
+    addFollow( 
+        @Param("userId",ParseMongoId) userId:mongodbId , 
+        @AuthUser() user:UserDoc
+    ){
+        return this.userService.addFollow(userId,user);
+    };
+    @Delete("user/follow/:userId")
+    @UseGuards(Protected)
+    removeFollow( 
+        @Param("userId",ParseMongoId) userId:mongodbId , 
+        @AuthUser() user:UserDoc
+    ){
+        return this.userService.removeFollow(userId,user);
+    };
+    @Delete("user/follow/:userId")
+    @UseGuards(Protected)
+    getUserFollowings( 
+        @Param("userId",ParseMongoId) userId:mongodbId 
+    ){
+        return this.userService.getUserFollowers(userId);
+    };
 };

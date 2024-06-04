@@ -264,7 +264,7 @@ export class EventService {
             throw new HttpException("you are not allowed to update a comment",400);
         };
     };
-    async getComments(eventId:mongodbId , user:UserDoc){
+    async getComments(eventId:mongodbId ){
         const event=await this.eventModel.findOne({
             _id : eventId
         }).populate("comments.user");
