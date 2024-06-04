@@ -7,5 +7,6 @@ export enum Models {
     Post="post",
     Service="service",
     Contact="contact",
-    Question="question"
+    Question="question",
+    Ticket="ticket"
 }

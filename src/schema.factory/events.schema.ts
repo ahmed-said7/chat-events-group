@@ -32,6 +32,10 @@ export class EventSchema {
             user : { type:Schema.Types.ObjectId , ref:Models.User },
             content : { type : String }
         }],
+        price:{
+            type:Number,
+            default:0
+        },
         image:String,
         admin : {
             type:Schema.Types.ObjectId,
@@ -69,4 +73,5 @@ export interface EventDoc extends Document {
     image:string;
     address:string;
     admin : mongodbId;
+    price:number;
 };

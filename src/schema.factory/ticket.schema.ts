@@ -7,8 +7,11 @@ import { mongodbId } from "src/group/group.service";
 export class TicketSchema {
     schema=new Schema({
         paidAt:{
-            type:Date,
-            default:Date.now()
+            type:Date
+        },
+        isPaid:{
+            type:Boolean,
+            default:false
         },
         price:{
             type:Number,
@@ -37,4 +40,5 @@ export interface TicketDoc extends Document {
     owner: mongodbId;
     price:number;
     paidAt:Date;
+    isPaid:boolean;
 };
