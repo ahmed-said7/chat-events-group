@@ -10,6 +10,7 @@ import { ServiceProviderSchema } from "./user.service.schema";
 import { ContactSchema } from "./contact.schema";
 import { QuestionSchema } from "./question.schema";
 import { TicketSchema } from "./ticket.schema";
+import { ReviewSchema } from "./review.schema";
 
 
 @Module({
@@ -17,12 +18,12 @@ import { TicketSchema } from "./ticket.schema";
     providers:[
         UserSchema,ChatSchema,GroupSchema,
         PostSchema,MessageSchema,EventSchema,ServiceProviderSchema,
-        ContactSchema,QuestionSchema,TicketSchema
+        ContactSchema,QuestionSchema,TicketSchema,ReviewSchema
     ],
     exports:[
         UserSchema,ChatSchema,GroupSchema,PostSchema
         ,MessageSchema,EventSchema,ServiceProviderSchema,
-        ContactSchema,QuestionSchema,TicketSchema
+        ContactSchema,QuestionSchema,TicketSchema,ReviewSchema
     ]
 })
 

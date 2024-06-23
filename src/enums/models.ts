@@ -8,5 +8,6 @@ export enum Models {
     Service="service",
     Contact="contact",
     Question="question",
-    Ticket="ticket"
+    Ticket="ticket",
+    Review="review"
 }

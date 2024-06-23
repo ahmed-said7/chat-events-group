@@ -1,4 +1,3 @@
-import { ConfigService } from "@nestjs/config";
 import { Schema , Document } from "mongoose";
 import { Models } from "src/enums/models";
 import { mongodbId } from "src/group/group.service";
@@ -33,14 +32,14 @@ export class PostSchema {
     constructor(){
         const self=this;
         this.schema.post("init",function(){
-            if(this.image){
+            if( this.image ){
                 this.image=`${process.env.url}/post/${this.image}`;
             }
         });
         this.schema.post("save",function(){
             if(this.image){
                 this.image=`${process.env.url}/post/${this.image}`;
-            }
+            };
         });
     };
 };

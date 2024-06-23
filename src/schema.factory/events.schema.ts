@@ -1,8 +1,6 @@
-import { ConfigService } from "@nestjs/config";
-import {Schema,Document,model, Model} from "mongoose";
+import { Schema,Document, model } from "mongoose";
 import { Models } from "src/enums/models";
 import { mongodbId } from "src/group/group.service";
-
 
 export class EventSchema {
     schema=new Schema({
@@ -36,6 +34,8 @@ export class EventSchema {
             type:Number,
             default:0
         },
+        averageRating: { type: Number, default:0 } ,
+        ratingQuantity: { type: Number, default:0 } ,
         image:String,
         admin : {
             type:Schema.Types.ObjectId,

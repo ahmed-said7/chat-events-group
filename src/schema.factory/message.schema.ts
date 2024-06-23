@@ -1,7 +1,5 @@
-import { ConfigService } from "@nestjs/config";
 import {Schema,Document} from "mongoose";
 import { Models } from "src/enums/models";
-
 
 export class MessageSchema {
     schema=new Schema({
