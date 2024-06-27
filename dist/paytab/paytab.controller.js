@@ -41,6 +41,7 @@ let PaytabController = class PaytabController {
                 </div>
             </body>
         </html>`;
+        res.setHeader('Content-Type', 'text/html');
         res.send(html);
     }
     ;

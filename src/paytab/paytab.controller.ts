@@ -42,7 +42,8 @@ export class PaytabController {
                 </div>
             </body>
         </html>`;
-        res.send({ status :" paid" });
+        res.setHeader('Content-Type', 'text/html')
+        res.send(html);
     };
     @Get(":eventId")
     @UseGuards(Protected)
