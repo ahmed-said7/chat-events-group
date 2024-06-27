@@ -60,5 +60,10 @@ __decorate([
     (0, class_validator_1.IsMongoId)(),
     __metadata("design:type", Object)
 ], CreateEventDto.prototype, "admin", void 0);
+__decorate([
+    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNumber)(),
+    __metadata("design:type", Number)
+], CreateEventDto.prototype, "price", void 0);
 ;
 //# sourceMappingURL=event.create.dto.js.map

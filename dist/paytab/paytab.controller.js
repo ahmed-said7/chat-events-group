@@ -45,7 +45,7 @@ let PaytabController = class PaytabController {
     }
     ;
     createTicketPayment(user, res, eventId) {
-        return this.paytabService.createTicketPaymentUrl(res, eventId, user);
+        this.paytabService.createTicketPaymentUrl(res, eventId, user);
     }
     ;
 };

@@ -30,16 +30,14 @@ import { Paytab } from "./paytab";
 import { EventDoc } from "src/schema.factory/events.schema";
 import { mongodbId } from "src/group/group.service";
 import { TicketDoc } from "src/schema.factory/ticket.schema";
+import { ConfigService } from "@nestjs/config";
 export declare class PaytabService {
     private paytab;
+    private config;
     private eventModel;
     private ticketModel;
-    constructor(paytab: Paytab, eventModel: Model<EventDoc>, ticketModel: Model<TicketDoc>);
-    createTicketPaymentUrl(res: Response, eventId: mongodbId, user: UserDoc): Promise<void | {
-        ticket: import("mongoose").Document<unknown, {}, TicketDoc> & TicketDoc & {
-            _id: import("mongoose").Types.ObjectId;
-        };
-    }>;
+    constructor(paytab: Paytab, config: ConfigService, eventModel: Model<EventDoc>, ticketModel: Model<TicketDoc>);
+    createTicketPaymentUrl(res: Response, eventId: mongodbId, user: UserDoc): Promise<void>;
     validateOfferCallback(req: Request): Promise<void>;
     private ticketPaymentCreated;
 }

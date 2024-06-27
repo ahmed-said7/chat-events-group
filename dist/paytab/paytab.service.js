@@ -19,9 +19,11 @@ const models_1 = require("../enums/models");
 const mongoose_2 = require("mongoose");
 const event_emitter_1 = require("@nestjs/event-emitter");
 const paytab_1 = require("./paytab");
+const config_1 = require("@nestjs/config");
 let PaytabService = class PaytabService {
-    constructor(paytab, eventModel, ticketModel) {
+    constructor(paytab, config, eventModel, ticketModel) {
         this.paytab = paytab;
+        this.config = config;
         this.eventModel = eventModel;
         this.ticketModel = ticketModel;
     }
@@ -37,15 +39,15 @@ let PaytabService = class PaytabService {
             ticket.isPaid = true;
             ticket.paidAt = new Date();
             await ticket.save();
-            return { ticket };
+            res.status(200).json({ ticket });
         }
         ;
         const meta = { price: ticket.price, cartId: ticket._id };
         const urls = {
-            callback: process.env.callback,
-            response: process.env.response
+            callback: this.config.get("callback"),
+            response: this.config.get("response")
         };
-        return this.paytab.paymentUrlUsingAxios(res, user, meta, urls);
+        this.paytab.paymentUrlUsingAxios(res, user, meta, urls);
     }
     ;
     async validateOfferCallback(req) {
@@ -75,9 +77,10 @@ __decorate([
 ], PaytabService.prototype, "ticketPaymentCreated", null);
 exports.PaytabService = PaytabService = __decorate([
     (0, common_1.Injectable)(),
-    __param(1, (0, mongoose_1.InjectModel)(models_1.Models.Event)),
-    __param(2, (0, mongoose_1.InjectModel)(models_1.Models.Ticket)),
+    __param(2, (0, mongoose_1.InjectModel)(models_1.Models.Event)),
+    __param(3, (0, mongoose_1.InjectModel)(models_1.Models.Ticket)),
     __metadata("design:paramtypes", [paytab_1.Paytab,
+        config_1.ConfigService,
         mongoose_2.Model,
         mongoose_2.Model])
 ], PaytabService);

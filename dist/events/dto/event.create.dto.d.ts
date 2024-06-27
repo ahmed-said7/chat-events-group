@@ -8,4 +8,5 @@ export declare class CreateEventDto {
     image: string;
     address: string;
     admin: mongodbId;
+    price: number;
 }

@@ -33,4 +33,7 @@ export class CreateEventDto {
     @IsOptional()
     @IsMongoId()
     admin : mongodbId;
+    @IsOptional()
+    @IsNumber()
+    price:number;
 };

@@ -42,7 +42,7 @@ export class PaytabController {
                 </div>
             </body>
         </html>`;
-        res.send(html);
+        res.send({ status :" paid" });
     };
     @Get(":eventId")
     @UseGuards(Protected)
@@ -51,6 +51,6 @@ export class PaytabController {
         @Res() res:Response,
         @Param("eventId",ParseMongoId) eventId:mongodbId
     ){
-        return this.paytabService.createTicketPaymentUrl(res,eventId,user);
+        this.paytabService.createTicketPaymentUrl(res,eventId,user);
     };
 };

@@ -9,11 +9,13 @@ import { IResponsePaytab, Paytab } from "./paytab";
 import { EventDoc } from "src/schema.factory/events.schema";
 import { mongodbId } from "src/group/group.service";
 import { TicketDoc } from "src/schema.factory/ticket.schema";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class PaytabService {
     constructor(
         private paytab:Paytab,
+        private config:ConfigService,
         @InjectModel(Models.Event) private eventModel:Model<EventDoc>,
         @InjectModel(Models.Ticket) private ticketModel:Model<TicketDoc>
     ){}
@@ -29,14 +31,14 @@ export class PaytabService {
             ticket.isPaid=true;
             ticket.paidAt=new Date()
             await ticket.save();
-            return { ticket };
+            res.status(200).json( { ticket } );
         };
         const meta={ price:ticket.price ,  cartId: ticket._id  };
         const urls={ 
-            callback:process.env.callback, 
-            response:process.env.response 
+            callback:this.config.get("callback"), 
+            response:this.config.get("response") 
         };
-        return this.paytab.paymentUrlUsingAxios(res,user,meta,urls)
+        this.paytab.paymentUrlUsingAxios(res,user,meta,urls)
     };
     async validateOfferCallback(req:Request){
         this.paytab.ValidateOfferPayment(req);
