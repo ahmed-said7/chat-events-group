@@ -35,18 +35,12 @@ export declare class FeedController {
         events: (import("mongoose").Document<unknown, {}, import("../schema.factory/events.schema").EventDoc> & import("../schema.factory/events.schema").EventDoc & {
             _id: import("mongoose").Types.ObjectId;
         })[];
-        services: (import("mongoose").Document<unknown, {}, import("../schema.factory/user.service.schema").ServiceProviderDoc> & import("../schema.factory/user.service.schema").ServiceProviderDoc & {
-            _id: import("mongoose").Types.ObjectId;
-        })[];
     }>;
-    getNewFeed(user: UserDoc, page: string): Promise<{
+    getNewFeed(user: UserDoc): Promise<{
         posts: (import("mongoose").Document<unknown, {}, import("../schema.factory/post.schema").PostDoc> & import("../schema.factory/post.schema").PostDoc & {
             _id: import("mongoose").Types.ObjectId;
         })[];
         events: (import("mongoose").Document<unknown, {}, import("../schema.factory/events.schema").EventDoc> & import("../schema.factory/events.schema").EventDoc & {
-            _id: import("mongoose").Types.ObjectId;
-        })[];
-        services: (import("mongoose").Document<unknown, {}, import("../schema.factory/user.service.schema").ServiceProviderDoc> & import("../schema.factory/user.service.schema").ServiceProviderDoc & {
             _id: import("mongoose").Types.ObjectId;
         })[];
     }>;

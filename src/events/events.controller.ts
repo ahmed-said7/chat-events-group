@@ -88,13 +88,6 @@ export class EventController {
     ){
         return this.eventService.createEvent(body, user);
     };
-    @Get(":eventId")
-    @UseGuards(Protected)
-    getEvent(
-        @Param("eventId",ParseMongoId) eventId: mongodbId
-    ){
-        return this.eventService.getEvent(eventId);
-    };
     @Get()
     @UseGuards(Protected)
     getAllEvents(
@@ -148,14 +141,6 @@ export class EventController {
     ){
         return this.eventService.updateComment(body,eventId,commentId,user);
     };
-    @Patch("comments/:eventId")
-    @UseGuards(Protected)
-    getEventComments(
-        @Param("eventId",ParseMongoId) eventId: mongodbId,
-        @AuthUser() user:UserDoc
-    ){
-        return this.eventService.getComments(eventId);
-    };
     @Post("likes/:eventId")
     @UseGuards(Protected)
     addEventLike(
@@ -175,8 +160,7 @@ export class EventController {
     @Get("likes/:eventId")
     @UseGuards(Protected)
     getEventLikes(
-        @Param("eventId",ParseMongoId) eventId: mongodbId,
-        @AuthUser() user:UserDoc
+        @Param("eventId",ParseMongoId) eventId: mongodbId
     ){
         return this.eventService.getEventLikes(eventId);
     };
@@ -202,5 +186,19 @@ export class EventController {
         @AuthUser() user:UserDoc
     ){
         return this.eventService.getSavedEvents(user);
+    };
+    @Get("favorite")
+    @UseGuards(Protected)
+    getFavoriteEvents(
+        @AuthUser() user:UserDoc
+    ){
+        return this.eventService.getLikedEventByUser(user);
+    };
+    @Get(":eventId")
+    @UseGuards(Protected)
+    getEvent(
+        @Param("eventId",ParseMongoId) eventId: mongodbId
+    ){
+        return this.eventService.getEvent(eventId);
     };
 };

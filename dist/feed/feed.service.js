@@ -30,11 +30,9 @@ let FeedService = class FeedService {
         let limit = 5;
         let skipRate = parseInt(page) - 1 || 0;
         const postsCount = await this.postModel.find({ group: { $in: groupIds } }).countDocuments();
-        const serviceCount = await this.providerModel.countDocuments();
         const eventCount = await this.eventModel.countDocuments();
-        const sum = postsCount + serviceCount + eventCount;
+        const sum = postsCount + eventCount;
         const postLimit = Math.floor(((postsCount / sum) * 100) / limit);
-        const serviceLimit = Math.floor(((serviceCount / sum) * 100) / limit);
         const eventLimit = Math.floor(((eventCount / sum) * 100) / limit);
         const posts = await this.postModel
             .find({ group: { $in: groupIds } })
@@ -47,12 +45,9 @@ let FeedService = class FeedService {
         const events = await this.eventModel.find()
             .populate({ path: "admin", select: "name image" })
             .sort("-createdAt").skip(skipRate * eventLimit).limit(eventLimit);
-        const services = await this.providerModel.find()
-            .populate({ path: "admin", select: "name image" })
-            .sort("-createdAt").skip(skipRate * serviceLimit).limit(serviceLimit);
         user.lastSeen = new Date();
         await user.save();
-        return { posts, events, services };
+        return { posts, events };
     }
     ;
     async getNewFeed(user) {
@@ -74,12 +69,9 @@ let FeedService = class FeedService {
         const events = await this.eventModel
             .find({ $or: [{ createdAt: { $gt: user.lastSeen } }, { updatedAt: { $gt: user.lastSeen } }] })
             .populate({ path: "admin", select: "name image" }).sort("-createdAt").limit(6);
-        const services = await this.providerModel
-            .find({ $or: [{ createdAt: { $gt: user.lastSeen } }, { updatedAt: { $gt: user.lastSeen } }] })
-            .populate({ path: "admin", select: "name image" }).sort("-createdAt").limit(6);
         user.lastSeen = new Date();
         await user.save();
-        return { posts, events, services };
+        return { posts, events };
     }
     ;
 };

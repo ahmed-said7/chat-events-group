@@ -62,11 +62,6 @@ export declare class EventController {
             _id: import("mongoose").Types.ObjectId;
         };
     }>;
-    getEvent(eventId: mongodbId): Promise<{
-        event: import("mongoose").Document<unknown, {}, import("../schema.factory/events.schema").EventDoc> & import("../schema.factory/events.schema").EventDoc & {
-            _id: import("mongoose").Types.ObjectId;
-        };
-    }>;
     getAllEvents(query: QueryEventDto): Promise<{
         events: import("../schema.factory/events.schema").EventDoc[];
         paginationObj: import("../filter/api.service").Pagination;
@@ -98,20 +93,13 @@ export declare class EventController {
             content: string;
         };
     }>;
-    getEventComments(eventId: mongodbId, user: UserDoc): Promise<{
-        comments: {
-            _id?: import("mongoose").Schema.Types.ObjectId;
-            user: import("mongoose").Schema.Types.ObjectId;
-            content: string;
-        }[];
-    }>;
     addEventLike(eventId: mongodbId, user: UserDoc): Promise<{
         status: string;
     }>;
     removeEventLike(eventId: mongodbId, user: UserDoc): Promise<{
         status: string;
     }>;
-    getEventLikes(eventId: mongodbId, user: UserDoc): Promise<{
+    getEventLikes(eventId: mongodbId): Promise<{
         likes: import("mongoose").Schema.Types.ObjectId[];
     }>;
     addSavedEvent(eventId: mongodbId, user: UserDoc): Promise<{
@@ -122,5 +110,15 @@ export declare class EventController {
     }>;
     getSavedEvents(user: UserDoc): Promise<{
         events: import("mongoose").Schema.Types.ObjectId[];
+    }>;
+    getFavoriteEvents(user: UserDoc): Promise<{
+        events: (import("mongoose").Document<unknown, {}, import("../schema.factory/events.schema").EventDoc> & import("../schema.factory/events.schema").EventDoc & {
+            _id: import("mongoose").Types.ObjectId;
+        })[];
+    }>;
+    getEvent(eventId: mongodbId): Promise<{
+        event: import("mongoose").Document<unknown, {}, import("../schema.factory/events.schema").EventDoc> & import("../schema.factory/events.schema").EventDoc & {
+            _id: import("mongoose").Types.ObjectId;
+        };
     }>;
 }

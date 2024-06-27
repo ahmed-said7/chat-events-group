@@ -49,12 +49,6 @@ export declare class UserController {
         user: UserDoc;
         status: string;
     }>;
-    sendVerificationToEmail(user: UserDoc): Promise<{
-        status: string;
-    }>;
-    verifyUserEmail(code: string): Promise<{
-        status: string;
-    }>;
     forgetPassowrd(body: forgetPassowrdBody): Promise<{
         resetCode: string;
     }>;
@@ -83,11 +77,6 @@ export declare class UserController {
             _id: import("mongoose").Types.ObjectId;
         })[];
     }>;
-    getOneUser(userId: mongodbId): Promise<{
-        user: import("mongoose").Document<unknown, {}, UserDoc> & UserDoc & {
-            _id: import("mongoose").Types.ObjectId;
-        };
-    }>;
     addFollow(userId: mongodbId, user: UserDoc): Promise<{
         status: string;
     }>;
@@ -96,5 +85,10 @@ export declare class UserController {
     }>;
     getUserFollowings(userId: mongodbId): Promise<{
         followers: import("mongoose").Schema.Types.ObjectId[];
+    }>;
+    getOneUser(userId: mongodbId): Promise<{
+        user: import("mongoose").Document<unknown, {}, UserDoc> & UserDoc & {
+            _id: import("mongoose").Types.ObjectId;
+        };
     }>;
 }

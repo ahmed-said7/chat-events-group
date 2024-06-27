@@ -36,7 +36,6 @@ let UserService = class UserService {
     async signup(body) {
         let user = await this.validateEmail(body.email);
         user = await this.Usermodel.create(body);
-        await this.emailVerification(user);
         const token = this.createtoken(user._id);
         return { token, user };
     }
@@ -261,7 +260,7 @@ let UserService = class UserService {
         followingUser.followers = followingUser.
             followers.filter(id => id.toString() != user._id.toString());
         await followingUser.save();
-        return { status: "follow sent" };
+        return { status: "follow removed" };
     }
     ;
     async getUserFollowers(userId) {

@@ -32,6 +32,8 @@ export declare class EventSchema {
         updatedAt: NativeDate;
     } & {
         name: string;
+        averageRating: number;
+        ratingQuantity: number;
         likes: import("mongoose").Types.ObjectId[];
         comments: import("mongoose").Types.DocumentArray<{
             user?: import("mongoose").Types.ObjectId;
@@ -41,8 +43,6 @@ export declare class EventSchema {
         interested: import("mongoose").Types.ObjectId[];
         went: import("mongoose").Types.ObjectId[];
         price: number;
-        averageRating: number;
-        ratingQuantity: number;
         image?: string;
         admin?: import("mongoose").Types.ObjectId;
         details?: string;
@@ -54,6 +54,8 @@ export declare class EventSchema {
         updatedAt: NativeDate;
     } & {
         name: string;
+        averageRating: number;
+        ratingQuantity: number;
         likes: import("mongoose").Types.ObjectId[];
         comments: import("mongoose").Types.DocumentArray<{
             user?: import("mongoose").Types.ObjectId;
@@ -63,8 +65,6 @@ export declare class EventSchema {
         interested: import("mongoose").Types.ObjectId[];
         went: import("mongoose").Types.ObjectId[];
         price: number;
-        averageRating: number;
-        ratingQuantity: number;
         image?: string;
         admin?: import("mongoose").Types.ObjectId;
         details?: string;
@@ -76,6 +76,8 @@ export declare class EventSchema {
         updatedAt: NativeDate;
     } & {
         name: string;
+        averageRating: number;
+        ratingQuantity: number;
         likes: import("mongoose").Types.ObjectId[];
         comments: import("mongoose").Types.DocumentArray<{
             user?: import("mongoose").Types.ObjectId;
@@ -85,8 +87,6 @@ export declare class EventSchema {
         interested: import("mongoose").Types.ObjectId[];
         went: import("mongoose").Types.ObjectId[];
         price: number;
-        averageRating: number;
-        ratingQuantity: number;
         image?: string;
         admin?: import("mongoose").Types.ObjectId;
         details?: string;

@@ -63,7 +63,7 @@ let EventService = class EventService {
     ;
     async getEvent(eventId) {
         const eventExists = await this.eventModel
-            .findById(eventId).populate("admin");
+            .findById(eventId).populate("admin", "comments.user");
         if (!eventExists) {
             throw new common_1.HttpException("event not found", 400);
         }
@@ -74,9 +74,8 @@ let EventService = class EventService {
     async getAllEvents(query) {
         const { paginationObj, query: data } = await this.filter
             .filter(this.eventModel.find(), query).select()
-            .sort().population("admin")
-            .search().pagination();
-        let events = await data;
+            .sort().search().pagination();
+        let events = await data.populate("admin");
         return { events, paginationObj };
     }
     ;
@@ -240,6 +239,17 @@ let EventService = class EventService {
         return { status: "like removed from event" };
     }
     ;
+    async getLikedEventByUser(user) {
+        const events = await this.eventModel.find({
+            "likes": user._id
+        });
+        if (events.length == 0) {
+            throw new common_1.HttpException("No events found", 400);
+        }
+        ;
+        return { events };
+    }
+    ;
     async getSavedEvents(user) {
         const saved = await user.populate("savedEvents");
         return { events: saved.savedEvents };
@@ -316,17 +326,6 @@ let EventService = class EventService {
             throw new common_1.HttpException("you are not allowed to update a comment", 400);
         }
         ;
-    }
-    ;
-    async getComments(eventId) {
-        const event = await this.eventModel.findOne({
-            _id: eventId
-        }).populate("comments.user");
-        if (!event) {
-            throw new common_1.HttpException("event not found", 400);
-        }
-        ;
-        return { comments: event.comments };
     }
     ;
 };

@@ -26,7 +26,7 @@ let FeedController = class FeedController {
         return this.feedService.getFeed(user, page);
     }
     ;
-    getNewFeed(user, page) {
+    getNewFeed(user) {
         return this.feedService.getNewFeed(user);
     }
     ;
@@ -43,9 +43,8 @@ __decorate([
 __decorate([
     (0, common_1.Get)("/new"),
     __param(0, (0, current_user_1.AuthUser)()),
-    __param(1, (0, common_1.Query)("page")),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, String]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], FeedController.prototype, "getNewFeed", null);
 exports.FeedController = FeedController = __decorate([

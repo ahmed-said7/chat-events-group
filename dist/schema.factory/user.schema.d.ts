@@ -54,6 +54,8 @@ export declare class UserSchema {
             createFromBase64?: {};
             isValid?: {};
         }[];
+        averageRating: number;
+        ratingQuantity: number;
         addresses: Types.DocumentArray<{
             code?: number;
             country?: string;
@@ -96,6 +98,8 @@ export declare class UserSchema {
             createFromBase64?: {};
             isValid?: {};
         }[];
+        averageRating: number;
+        ratingQuantity: number;
         addresses: Types.DocumentArray<{
             code?: number;
             country?: string;
@@ -138,6 +142,8 @@ export declare class UserSchema {
             createFromBase64?: {};
             isValid?: {};
         }[];
+        averageRating: number;
+        ratingQuantity: number;
         addresses: Types.DocumentArray<{
             code?: number;
             country?: string;
@@ -174,6 +180,8 @@ export interface UserDoc extends Document {
     passwordResetCodeVertified?: boolean;
     followers: mongodbId[];
     savedEvents: mongodbId[];
+    averageRating: number;
+    ratingQuantity: number;
     addresses: {
         _id: mongodbId;
         postalCode: number;

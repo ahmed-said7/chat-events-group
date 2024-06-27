@@ -27,8 +27,21 @@ let PaytabController = class PaytabController {
         return this.paytabService.validateOfferCallback(request);
     }
     ;
-    returnedTicketPayment(request) {
-        return { status: "paid" };
+    returnedTicketPayment(res) {
+        const html = `<html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Payment Success</title>
+            </head>
+            <body style="font-family: Arial, sans-serif; background-color: #f0f0f0; text-align: center; padding: 20px;">
+                <div style="background-color: #ffffff; border-radius: 8px; padding: 20px; max-width: 400px; margin: 0 auto;">
+                    <h2 style="color: #4CAF50;">Payment Paid Successfully</h2>
+                    <p style="color: #333333;">Thank you for your payment. Your transaction was successful.</p>
+                </div>
+            </body>
+        </html>`;
+        res.send(html);
     }
     ;
     createTicketPayment(user, res, eventId) {
@@ -46,7 +59,7 @@ __decorate([
 ], PaytabController.prototype, "validatTicketPayment", null);
 __decorate([
     (0, common_1.Post)("ticket/return"),
-    __param(0, (0, common_1.Req)()),
+    __param(0, (0, common_1.Res)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)

@@ -41,18 +41,12 @@ export declare class FeedService {
         events: (import("mongoose").Document<unknown, {}, EventDoc> & EventDoc & {
             _id: import("mongoose").Types.ObjectId;
         })[];
-        services: (import("mongoose").Document<unknown, {}, ServiceProviderDoc> & ServiceProviderDoc & {
-            _id: import("mongoose").Types.ObjectId;
-        })[];
     }>;
     getNewFeed(user: UserDoc): Promise<{
         posts: (import("mongoose").Document<unknown, {}, PostDoc> & PostDoc & {
             _id: import("mongoose").Types.ObjectId;
         })[];
         events: (import("mongoose").Document<unknown, {}, EventDoc> & EventDoc & {
-            _id: import("mongoose").Types.ObjectId;
-        })[];
-        services: (import("mongoose").Document<unknown, {}, ServiceProviderDoc> & ServiceProviderDoc & {
             _id: import("mongoose").Types.ObjectId;
         })[];
     }>;

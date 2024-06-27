@@ -46,6 +46,8 @@ export class UserSchema {
         active:{type:Boolean,default:true},
         emailVerifiedExpired:Date,
         emailVerifiedCode:String,
+        averageRating: { type:Number,default:0 },
+        ratingQuantity:{ type:Number,default:0 }
         },{
             timestamps:true
         }
@@ -87,6 +89,8 @@ export interface UserDoc extends Document {
     passwordResetCodeVertified?:boolean;
     followers:mongodbId[];
     savedEvents:mongodbId[];
+    averageRating: number,
+    ratingQuantity: number,
     addresses:{
         _id:mongodbId;
         postalCode:number;

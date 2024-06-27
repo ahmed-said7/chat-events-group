@@ -57,6 +57,7 @@ let PaytabService = class PaytabService {
             isPaid: true,
             paidAt: new Date()
         });
+        console.log(ticket);
         if (!ticket) {
             console.log("No offer found", 400);
             return;

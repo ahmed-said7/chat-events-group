@@ -2,7 +2,7 @@ import { IsMongoId, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { mongodbId } from "src/group/group.service";
 
 export class UpdateCommentDto {
-    @IsOptional()
+    @IsNotEmpty()
     @IsString()
     content: string;
 };

@@ -29,15 +29,15 @@ export class UserController {
     updatePassword( @Body() body:UpdatePasswordDto , @AuthUser() user:UserDoc  ){
         return this.userService.updatepassword(body, user);
     };
-    @Get("user/verify")
-    @UseGuards(Protected)
-    sendVerificationToEmail( @AuthUser() user:UserDoc  ){
-        return this.userService.createEmailVerificationCode(user);
-    };
-    @Patch("auth/verify/:code")
-    verifyUserEmail( @Param("code") code:string  ){
-        return this.userService.verifyEmail(code);
-    };
+    // @Get("user/verify")
+    // @UseGuards(Protected)
+    // sendVerificationToEmail( @AuthUser() user:UserDoc  ){
+    //     return this.userService.createEmailVerificationCode(user);
+    // };
+    // @Patch("auth/verify/:code")
+    // verifyUserEmail( @Param("code") code:string  ){
+    //     return this.userService.verifyEmail(code);
+    // };
     @Patch('auth/forget-pass')
     forgetPassowrd(@Body() body: forgetPassowrdBody ){
         return this.userService.forgetPassword(body.email);
@@ -79,13 +79,6 @@ export class UserController {
         return this.userService.getUsersBySearchName(keyword);
     };
 
-    @Get("user/:id")
-    @UseGuards(Protected)
-    getOneUser( 
-        @Param("id",ParseMongoId) userId:mongodbId  ){
-        return this.userService.getOneUser(userId);
-    };
-
     @Post("user/follow/:userId")
     @UseGuards(Protected)
     addFollow( 
@@ -102,11 +95,17 @@ export class UserController {
     ){
         return this.userService.removeFollow(userId,user);
     };
-    @Delete("user/follow/:userId")
+    @Get("user/follow/:userId")
     @UseGuards(Protected)
     getUserFollowings( 
         @Param("userId",ParseMongoId) userId:mongodbId 
     ){
         return this.userService.getUserFollowers(userId);
+    };
+    @Get("user/:id")
+    @UseGuards(Protected)
+    getOneUser( 
+        @Param("id",ParseMongoId) userId:mongodbId  ){
+        return this.userService.getOneUser(userId);
     };
 };

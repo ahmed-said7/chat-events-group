@@ -55,7 +55,7 @@ export class EventService {
     };
     async getEvent( eventId:mongodbId  ){
         const eventExists =await this.eventModel
-            .findById( eventId ).populate("admin");
+            .findById( eventId ).populate("admin","comments.user");
         if( ! eventExists ){
             throw new HttpException("event not found",400);
         };
@@ -64,9 +64,8 @@ export class EventService {
     async getAllEvents(query:QueryEventDto){
         const {paginationObj,query:data}=await this.filter
             .filter(this.eventModel.find(),query).select()
-            .sort().population("admin")
-            .search().pagination();
-        let events=await data;
+            .sort().search().pagination();
+        let events=await data.populate("admin");
         return { events , paginationObj };
     };
     async addInterestUserToEvent(eventId:mongodbId,user:UserDoc){
@@ -197,6 +196,15 @@ export class EventService {
         await eventExists.save();
         return { status : "like removed from event" };
     };
+    async getLikedEventByUser(user:UserDoc){
+        const events =await this.eventModel.find( {
+            "likes" : user._id 
+        } );
+        if( events.length == 0 ){
+            throw new HttpException("No events found",400);
+        };
+        return { events};
+    };
     async getSavedEvents( user:UserDoc ){
         const saved=await user.populate("savedEvents");
         return { events : saved.savedEvents };
@@ -263,14 +271,5 @@ export class EventService {
         }else {
             throw new HttpException("you are not allowed to update a comment",400);
         };
-    };
-    async getComments(eventId:mongodbId ){
-        const event=await this.eventModel.findOne({
-            _id : eventId
-        }).populate("comments.user");
-        if( !event ){
-            throw new HttpException("event not found" , 400 );
-        };
-        return { comments : event.comments };
     };
 };

@@ -50,7 +50,7 @@ export class UserService {
         //     throw new HttpException("password does not match password confirm",400);
         // };
         user = await this.Usermodel.create(body);
-        await this.emailVerification(user);
+        // await this.emailVerification(user);
         const token=this.createtoken(user._id);
         return { token , user };
     };
@@ -243,7 +243,7 @@ export class UserService {
         followingUser.followers=followingUser.
             followers.filter( id => id.toString() != user._id.toString() );
         await followingUser.save();
-        return { status : "follow sent" };
+        return { status : "follow removed" };
     };
     async getUserFollowers( userId: mongodbId ){
         const followingUser=await this.Usermodel

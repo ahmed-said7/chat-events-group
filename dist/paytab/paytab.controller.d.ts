@@ -32,9 +32,7 @@ export declare class PaytabController {
     private paytabService;
     constructor(paytabService: PaytabService);
     validatTicketPayment(request: Request): Promise<void>;
-    returnedTicketPayment(request: Request): {
-        status: string;
-    };
+    returnedTicketPayment(res: Response): void;
     createTicketPayment(user: UserDoc, res: Response, eventId: mongodbId): Promise<void | {
         ticket: import("mongoose").Document<unknown, {}, import("../schema.factory/ticket.schema").TicketDoc> & import("../schema.factory/ticket.schema").TicketDoc & {
             _id: import("mongoose").Types.ObjectId;

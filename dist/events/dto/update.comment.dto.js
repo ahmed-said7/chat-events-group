@@ -15,7 +15,7 @@ class UpdateCommentDto {
 }
 exports.UpdateCommentDto = UpdateCommentDto;
 __decorate([
-    (0, class_validator_1.IsOptional)(),
+    (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], UpdateCommentDto.prototype, "content", void 0);

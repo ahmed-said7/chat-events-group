@@ -62,10 +62,6 @@ let EventController = class EventController {
         return this.eventService.createEvent(body, user);
     }
     ;
-    getEvent(eventId) {
-        return this.eventService.getEvent(eventId);
-    }
-    ;
     getAllEvents(query) {
         return this.eventService.getAllEvents(query);
     }
@@ -90,10 +86,6 @@ let EventController = class EventController {
         return this.eventService.updateComment(body, eventId, commentId, user);
     }
     ;
-    getEventComments(eventId, user) {
-        return this.eventService.getComments(eventId);
-    }
-    ;
     addEventLike(eventId, user) {
         return this.eventService.addLikeToEvent(eventId, user);
     }
@@ -102,7 +94,7 @@ let EventController = class EventController {
         return this.eventService.removeLikeFromEvent(eventId, user);
     }
     ;
-    getEventLikes(eventId, user) {
+    getEventLikes(eventId) {
         return this.eventService.getEventLikes(eventId);
     }
     ;
@@ -116,6 +108,14 @@ let EventController = class EventController {
     ;
     getSavedEvents(user) {
         return this.eventService.getSavedEvents(user);
+    }
+    ;
+    getFavoriteEvents(user) {
+        return this.eventService.getLikedEventByUser(user);
+    }
+    ;
+    getEvent(eventId) {
+        return this.eventService.getEvent(eventId);
     }
     ;
 };
@@ -189,14 +189,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], EventController.prototype, "createEvent", null);
 __decorate([
-    (0, common_1.Get)(":eventId"),
-    (0, common_1.UseGuards)(protect_user_1.Protected),
-    __param(0, (0, common_1.Param)("eventId", validate_mogoid_1.ParseMongoId)),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], EventController.prototype, "getEvent", null);
-__decorate([
     (0, common_1.Get)(),
     (0, common_1.UseGuards)(protect_user_1.Protected),
     __param(0, (0, common_1.Query)()),
@@ -256,15 +248,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], EventController.prototype, "updateEventComment", null);
 __decorate([
-    (0, common_1.Patch)("comments/:eventId"),
-    (0, common_1.UseGuards)(protect_user_1.Protected),
-    __param(0, (0, common_1.Param)("eventId", validate_mogoid_1.ParseMongoId)),
-    __param(1, (0, current_user_1.AuthUser)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
-    __metadata("design:returntype", void 0)
-], EventController.prototype, "getEventComments", null);
-__decorate([
     (0, common_1.Post)("likes/:eventId"),
     (0, common_1.UseGuards)(protect_user_1.Protected),
     __param(0, (0, common_1.Param)("eventId", validate_mogoid_1.ParseMongoId)),
@@ -286,9 +269,8 @@ __decorate([
     (0, common_1.Get)("likes/:eventId"),
     (0, common_1.UseGuards)(protect_user_1.Protected),
     __param(0, (0, common_1.Param)("eventId", validate_mogoid_1.ParseMongoId)),
-    __param(1, (0, current_user_1.AuthUser)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], EventController.prototype, "getEventLikes", null);
 __decorate([
@@ -317,6 +299,22 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], EventController.prototype, "getSavedEvents", null);
+__decorate([
+    (0, common_1.Get)("favorite"),
+    (0, common_1.UseGuards)(protect_user_1.Protected),
+    __param(0, (0, current_user_1.AuthUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], EventController.prototype, "getFavoriteEvents", null);
+__decorate([
+    (0, common_1.Get)(":eventId"),
+    (0, common_1.UseGuards)(protect_user_1.Protected),
+    __param(0, (0, common_1.Param)("eventId", validate_mogoid_1.ParseMongoId)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], EventController.prototype, "getEvent", null);
 exports.EventController = EventController = __decorate([
     (0, common_1.Controller)("event"),
     __metadata("design:paramtypes", [events_service_1.EventService])

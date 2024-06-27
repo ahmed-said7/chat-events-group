@@ -100,6 +100,11 @@ export declare class EventService {
     removeLikeFromEvent(eventId: mongodbId, user: UserDoc): Promise<{
         status: string;
     }>;
+    getLikedEventByUser(user: UserDoc): Promise<{
+        events: (import("mongoose").Document<unknown, {}, EventDoc> & EventDoc & {
+            _id: import("mongoose").Types.ObjectId;
+        })[];
+    }>;
     getSavedEvents(user: UserDoc): Promise<{
         events: import("mongoose").Schema.Types.ObjectId[];
     }>;
@@ -124,13 +129,6 @@ export declare class EventService {
             user: import("mongoose").Schema.Types.ObjectId;
             content: string;
         };
-    }>;
-    getComments(eventId: mongodbId): Promise<{
-        comments: {
-            _id?: import("mongoose").Schema.Types.ObjectId;
-            user: import("mongoose").Schema.Types.ObjectId;
-            content: string;
-        }[];
     }>;
 }
 export {};

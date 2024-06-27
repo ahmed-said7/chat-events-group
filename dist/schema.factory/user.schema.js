@@ -47,6 +47,8 @@ class UserSchema {
             active: { type: Boolean, default: true },
             emailVerifiedExpired: Date,
             emailVerifiedCode: String,
+            averageRating: { type: Number, default: 0 },
+            ratingQuantity: { type: Number, default: 0 }
         }, {
             timestamps: true
         });

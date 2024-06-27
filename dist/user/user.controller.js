@@ -41,14 +41,6 @@ let UserController = class UserController {
         return this.userService.updatepassword(body, user);
     }
     ;
-    sendVerificationToEmail(user) {
-        return this.userService.createEmailVerificationCode(user);
-    }
-    ;
-    verifyUserEmail(code) {
-        return this.userService.verifyEmail(code);
-    }
-    ;
     forgetPassowrd(body) {
         return this.userService.forgetPassword(body.email);
     }
@@ -77,10 +69,6 @@ let UserController = class UserController {
         return this.userService.getUsersBySearchName(keyword);
     }
     ;
-    getOneUser(userId) {
-        return this.userService.getOneUser(userId);
-    }
-    ;
     addFollow(userId, user) {
         return this.userService.addFollow(userId, user);
     }
@@ -91,6 +79,10 @@ let UserController = class UserController {
     ;
     getUserFollowings(userId) {
         return this.userService.getUserFollowers(userId);
+    }
+    ;
+    getOneUser(userId) {
+        return this.userService.getOneUser(userId);
     }
     ;
 };
@@ -118,21 +110,6 @@ __decorate([
     __metadata("design:paramtypes", [update_password_dto_1.UpdatePasswordDto, Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "updatePassword", null);
-__decorate([
-    (0, common_1.Get)("user/verify"),
-    (0, common_1.UseGuards)(protect_user_1.Protected),
-    __param(0, (0, current_user_1.AuthUser)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "sendVerificationToEmail", null);
-__decorate([
-    (0, common_1.Patch)("auth/verify/:code"),
-    __param(0, (0, common_1.Param)("code")),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "verifyUserEmail", null);
 __decorate([
     (0, common_1.Patch)('auth/forget-pass'),
     __param(0, (0, common_1.Body)()),
@@ -189,14 +166,6 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getUsers", null);
 __decorate([
-    (0, common_1.Get)("user/:id"),
-    (0, common_1.UseGuards)(protect_user_1.Protected),
-    __param(0, (0, common_1.Param)("id", validate_mogoid_1.ParseMongoId)),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], UserController.prototype, "getOneUser", null);
-__decorate([
     (0, common_1.Post)("user/follow/:userId"),
     (0, common_1.UseGuards)(protect_user_1.Protected),
     __param(0, (0, common_1.Param)("userId", validate_mogoid_1.ParseMongoId)),
@@ -215,13 +184,21 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "removeFollow", null);
 __decorate([
-    (0, common_1.Delete)("user/follow/:userId"),
+    (0, common_1.Get)("user/follow/:userId"),
     (0, common_1.UseGuards)(protect_user_1.Protected),
     __param(0, (0, common_1.Param)("userId", validate_mogoid_1.ParseMongoId)),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getUserFollowings", null);
+__decorate([
+    (0, common_1.Get)("user/:id"),
+    (0, common_1.UseGuards)(protect_user_1.Protected),
+    __param(0, (0, common_1.Param)("id", validate_mogoid_1.ParseMongoId)),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "getOneUser", null);
 exports.UserController = UserController = __decorate([
     (0, common_1.Controller)(),
     __metadata("design:paramtypes", [user_service_1.UserService])
