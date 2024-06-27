@@ -10,6 +10,12 @@ export class CreateEventDto {
     @IsString()
     details:string;
     @IsNotEmpty()
+    @Transform( ( {value} )=> {
+        if( typeof value === "string" ){
+            return JSON.parse( value );
+        };
+        return value;
+    } )
     @IsArray()
     @ArrayMinSize(2)
     @ArrayMaxSize(2)
@@ -25,8 +31,9 @@ export class CreateEventDto {
     @IsDate()
     endedAt:Date;
     @IsOptional()
-    @IsString()
-    image:string;
+    @IsArray()
+    @IsString({each:true})
+    images:string;
     @IsNotEmpty()
     @IsString()
     address:string;

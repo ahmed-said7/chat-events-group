@@ -21,10 +21,10 @@ const current_user_1 = require("../decorator/current.user");
 const validate_mogoid_1 = require("../pipes/validate.mogoid");
 const event_query_dto_1 = require("./dto/event.query.dto");
 const update_event_dto_1 = require("./dto/update.event.dto");
-const file_interceptor_1 = require("../interceptor/file.interceptor");
 const platform_express_1 = require("@nestjs/platform-express");
 const comment_create_dto_1 = require("./dto/comment.create.dto");
 const update_comment_dto_1 = require("./dto/update.comment.dto");
+const event_file_interceptor_1 = require("../interceptor/event.file.interceptor");
 let EventController = class EventController {
     constructor(eventService) {
         this.eventService = eventService;
@@ -181,7 +181,7 @@ __decorate([
 __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseGuards)(protect_user_1.Protected),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("image"), file_interceptor_1.FileInterceptorImage),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([{ name: "images", maxCount: 10 }]), event_file_interceptor_1.FileInterceptorEventImages),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, current_user_1.AuthUser)()),
     __metadata("design:type", Function),
@@ -199,7 +199,7 @@ __decorate([
 __decorate([
     (0, common_1.Patch)(":eventId"),
     (0, common_1.UseGuards)(protect_user_1.Protected),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)("image"), file_interceptor_1.FileInterceptorImage),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileFieldsInterceptor)([{ name: "images", maxCount: 10 }]), event_file_interceptor_1.FileInterceptorEventImages),
     __param(0, (0, common_1.Param)("eventId", validate_mogoid_1.ParseMongoId)),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, current_user_1.AuthUser)()),

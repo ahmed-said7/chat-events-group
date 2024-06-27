@@ -27,6 +27,13 @@ __decorate([
 ], CreateEventDto.prototype, "details", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
+    (0, class_transformer_1.Transform)(({ value }) => {
+        if (typeof value === "string") {
+            return JSON.parse(value);
+        }
+        ;
+        return value;
+    }),
     (0, class_validator_1.IsArray)(),
     (0, class_validator_1.ArrayMinSize)(2),
     (0, class_validator_1.ArrayMaxSize)(2),
@@ -47,9 +54,10 @@ __decorate([
 ], CreateEventDto.prototype, "endedAt", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsArray)(),
+    (0, class_validator_1.IsString)({ each: true }),
     __metadata("design:type", String)
-], CreateEventDto.prototype, "image", void 0);
+], CreateEventDto.prototype, "images", void 0);
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),

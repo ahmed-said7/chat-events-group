@@ -43,7 +43,7 @@ export declare class EventSchema {
         interested: import("mongoose").Types.ObjectId[];
         went: import("mongoose").Types.ObjectId[];
         price: number;
-        image?: string;
+        images: string[];
         admin?: import("mongoose").Types.ObjectId;
         details?: string;
         address?: string;
@@ -65,7 +65,7 @@ export declare class EventSchema {
         interested: import("mongoose").Types.ObjectId[];
         went: import("mongoose").Types.ObjectId[];
         price: number;
-        image?: string;
+        images: string[];
         admin?: import("mongoose").Types.ObjectId;
         details?: string;
         address?: string;
@@ -87,7 +87,7 @@ export declare class EventSchema {
         interested: import("mongoose").Types.ObjectId[];
         went: import("mongoose").Types.ObjectId[];
         price: number;
-        image?: string;
+        images: string[];
         admin?: import("mongoose").Types.ObjectId;
         details?: string;
         address?: string;
@@ -112,7 +112,7 @@ export interface EventDoc extends Document {
         user: mongodbId;
         content: string;
     }[];
-    image: string;
+    images: string[];
     address: string;
     admin: mongodbId;
     price: number;

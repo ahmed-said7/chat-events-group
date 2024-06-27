@@ -38,7 +38,7 @@ class EventSchema {
             },
             averageRating: { type: Number, default: 0 },
             ratingQuantity: { type: Number, default: 0 },
-            image: String,
+            images: [String],
             admin: {
                 type: mongoose_1.Schema.Types.ObjectId,
                 ref: models_1.Models.User
@@ -49,13 +49,21 @@ class EventSchema {
         this.schema.index({ location: "2dsphere" });
         this.schema.index({ name: "text", "details": "text" });
         this.schema.post("init", function () {
-            if (this.image) {
-                this.image = `${process.env.url}/event/${this.image}`;
+            if (this.images.length > 0) {
+                const images = [];
+                this.images.forEach((img) => {
+                    images.push(`${process.env.url}/event/${img}`);
+                });
+                this.images = images;
             }
         });
         this.schema.post("save", function () {
-            if (this.image) {
-                this.image = `${process.env.url}/event/${this.image}`;
+            if (this.images.length > 0) {
+                const images = [];
+                this.images.forEach((img) => {
+                    images.push(`${process.env.url}/event/${img}`);
+                });
+                this.images = images;
             }
         });
     }

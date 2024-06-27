@@ -36,7 +36,7 @@ export class EventSchema {
         },
         averageRating: { type: Number, default:0 } ,
         ratingQuantity: { type: Number, default:0 } ,
-        image:String,
+        images:[String],
         admin : {
             type:Schema.Types.ObjectId,
             ref:Models.User
@@ -48,13 +48,21 @@ export class EventSchema {
         this.schema.index({location:"2dsphere"});
         this.schema.index({name:"text","details":"text"});
         this.schema.post("init",function(){
-            if(this.image){
-                this.image=`${process.env.url}/event/${this.image}`;
+            if(this.images.length > 0){
+                const images=[];
+                this.images.forEach((img)=>{
+                    images.push(`${process.env.url}/event/${img}`);
+                });
+                this.images=images;
             }
         });
         this.schema.post("save",function(){
-            if(this.image){
-                this.image=`${process.env.url}/event/${this.image}`;
+            if(this.images.length > 0){
+                const images=[];
+                this.images.forEach((img)=>{
+                    images.push(`${process.env.url}/event/${img}`);
+                });
+                this.images=images;
             }
         });
     };
@@ -70,7 +78,7 @@ export interface EventDoc extends Document {
     went:mongodbId[];
     likes:mongodbId[];
     comments:{ _id?: mongodbId; user:mongodbId; content:string; }[];
-    image:string;
+    images:string[];
     address:string;
     admin : mongodbId;
     price:number;

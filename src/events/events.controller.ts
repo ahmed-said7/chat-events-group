@@ -9,9 +9,10 @@ import { mongodbId } from "src/group/group.service";
 import { QueryEventDto } from "./dto/event.query.dto";
 import { UpdateEventDto } from "./dto/update.event.dto";
 import { FileInterceptorImage } from "src/interceptor/file.interceptor";
-import { FileInterceptor } from "@nestjs/platform-express";
+import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 import { CreateCommentDto } from "./dto/comment.create.dto";
 import { UpdateCommentDto } from "./dto/update.comment.dto";
+import { FileInterceptorEventImages } from "src/interceptor/event.file.interceptor";
 
 
 @Controller("event")
@@ -81,7 +82,7 @@ export class EventController {
 
     @Post()
     @UseGuards(Protected)
-    @UseInterceptors(FileInterceptor("image"),FileInterceptorImage)
+    @UseInterceptors(FileFieldsInterceptor([{name:"images",maxCount:10}]),FileInterceptorEventImages)
     createEvent(
         @Body() body:CreateEventDto ,
         @AuthUser() user:UserDoc
@@ -97,7 +98,7 @@ export class EventController {
     };
     @Patch(":eventId")
     @UseGuards(Protected)
-    @UseInterceptors(FileInterceptor("image"),FileInterceptorImage)
+    @UseInterceptors(FileFieldsInterceptor([{name:"images",maxCount:10}]),FileInterceptorEventImages)
     updateEvent(
         @Param("eventId",ParseMongoId) eventId: mongodbId,
         @Body() body:UpdateEventDto ,

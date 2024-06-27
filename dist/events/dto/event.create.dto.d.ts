@@ -5,7 +5,7 @@ export declare class CreateEventDto {
     location: [number, number];
     startedAt: Date;
     endedAt: Date;
-    image: string;
+    images: string;
     address: string;
     admin: mongodbId;
     price: number;

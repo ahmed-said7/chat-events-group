@@ -4,6 +4,6 @@ export declare class UpdateEventDto {
     location: [number, number];
     startedAt: Date;
     endedAt: Date;
-    image: string;
+    images: string;
     address: string;
 }
